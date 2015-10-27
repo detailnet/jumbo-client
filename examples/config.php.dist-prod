@@ -1,0 +1,6 @@
+<?php
+
+return array(
+    'app_id' => 'your-app-id',
+    'app_key' => 'your-app-key',
+);
