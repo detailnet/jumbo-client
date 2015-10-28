@@ -6,8 +6,11 @@ use Detail\Normalization\Normalizer\Service\NormalizerAwareTrait;
 
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 
+use Zend\Paginator\Adapter\ArrayAdapter;
+
 use Denner\Client\Subscriber;
 use Denner\Client\Exception;
+use Denner\Client\Collection\DefaultCollection;
 
 abstract class AbstractClient extends ServiceClient
 {
@@ -42,52 +45,63 @@ abstract class AbstractClient extends ServiceClient
             );
         }
 
-        $response = $this->execute(
+        $results = $this->execute(
             $this->getCommand(
                 $name,
                 isset($arguments[0]) ? $arguments[0] : []
             )
         );
 
-        $results = $response;
-
-        if (isset($config['rootNode']) && !isset($response[$config['rootNode']])) {
-            throw new Exception\RuntimeException(
-                sprintf(
-                    'Could not find rootNode in resultSet: "%s"',
-                    $config['rootNode']
-                )
-            );
-        }
-
         $rootNode = null;
 
-        if (isset($config['rootNode'])) {
-            $rootNode = $config['rootNode'];
+        if (strpos($name, 'list') === 0) {
+            $rootNode = $this->getRootProperty($config['model']);
         }
 
         return $this->denormalize($results, $config['model'], $rootNode);
     }
 
     /**
-     * @param array $results
+     * @param $model
+     * @return null|string
+     */
+    protected function getRootProperty($model)
+    {
+        preg_match('/([A-Z]{1}[a-z]+)+$/', $model, $matches);
+        return count($matches)
+            ? strtolower(
+                implode('_', (array) $matches[0])
+            ) . 's'
+            : null;
+    }
+
+    /**
+     * @param array $result
      * @param string $class
      * @param null|string $rootNode
      * @return array
      */
-    protected function deNormalize(array $results = array(), $class, $rootNode = null)
+    protected function deNormalize(array $result = array(), $class, $rootNode = null)
     {
-        $items = array();
-
-        if ($rootNode) {
-            $results = $results[$rootNode];
+        if ($rootNode === null) {
+            return $this->deNormalizeRow($result, $class);
         }
 
-        foreach ($results as $row) {
+        $items = array();
+
+        foreach ($result[$rootNode] as $row) {
             $items[] = $this->deNormalizeRow($row, $class);
         }
 
-        return $items;
+        $results = new DefaultCollection(
+            new ArrayAdapter($items)
+        );
+
+        $results->setItemCountPerPage($result['page_size']);
+        $results->setDefaultItemCountPerPage($result['total_items']);
+        $results->setPageRange($result['page_count']);
+
+        return $results;
     }
 
     /**

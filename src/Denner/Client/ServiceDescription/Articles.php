@@ -64,7 +64,6 @@ return array(
                 ),
             ),
             'model' => 'Denner\Common\Promotion\Promotion',
-            'rootNode' => 'promotions',
             'responseClass' => 'Promotion',
         ),
     ),
