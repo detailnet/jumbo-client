@@ -46,7 +46,7 @@ return array(
             'responseClass' => 'AdvertisedArticle',
         ),
         'listPromotions' => array(
-//            'class' => 'Denner\\Client\\Command\\OperationCommand',
+            'class' => 'Denner\\Client\\Command\\OperationCommand',
             'httpMethod' => 'GET',
             'uri' => 'promotions',
             'summary' => 'List promotions',
@@ -64,7 +64,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'ListPromotionsResponse',
+//            'responseClass' => 'ListPromotionsResponse',
 
             // Use of own model response class documented here:
             // http://guzzle3.readthedocs.org/webservice-client/guzzle-service-descriptions.html#responseclass
@@ -72,8 +72,7 @@ return array(
             // command should be done.
             // Possible implementation example here:
             //   http://guzzle3.readthedocs.org/webservice-client/webservice-client.html
-//            'responseType' => 'class',
-//            'responseClass' => '\\Denner\\Client\\Model\\Promotion',
+            'responseClass' => 'Promotion',
 ////            'responseClass' => Promotion::CLASS,
         ),
 //        'fetchPromotion' => array(

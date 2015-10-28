@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class
+            name="Denner\Common\Promotion\PromotionType"
+            exclusion-policy="ALL"
+            accessor-order="custom"
+            custom-accessor-order="id,code,name">
+        <property
+                name="id"
+                type="uuid"
+                since-version="1.0"
+                expose="true"
+                access-type="property">
+        </property>
+        <property
+                name="code"
+                type="string"
+                since-version="1.0"
+                expose="true"
+                access-type="property">
+        </property>
+        <property
+                name="name"
+                type="string"
+                since-version="1.0"
+                expose="true"
+                access-type="public_method"
+                accessor-getter="getName"
+                accessor-setter="setName">
+        </property>
+    </class>
+</serializer>

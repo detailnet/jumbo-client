@@ -28,7 +28,8 @@
     "require": {
         "php": ">=5.5.0",
         "guzzlehttp/guzzle": "~5.0",
-        "guzzlehttp/guzzle-services": "~0.5.0"
+        "guzzlehttp/guzzle-services": "~0.5.0",
+        "detailnet/dfw-normalization": "~0.1.6"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.4.5",
@@ -36,7 +37,7 @@
         "phpmd/phpmd": "~2.1.3",
         "satooshi/php-coveralls": "dev-master",
         "ramsey/uuid": "~2.8",
-        "detailnet/denner-common": "~0.5.1"
+        "detailnet/denner-common": "~0.7.0"
     },
     "suggest": {
         "ramsey/uuid": "For usage of the denner model response classes",
