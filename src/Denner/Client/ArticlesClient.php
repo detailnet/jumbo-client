@@ -5,14 +5,8 @@ namespace Denner\Client;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Collection;
 use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
-use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 
 use Denner\Client\Subscriber;
-use Denner\Common\Promotion\Promotion;
-
-use Detail\Normalization\Normalizer\Service\NormalizerAwareTrait;
-
-use Rhumsaa\Uuid\Uuid;
 
 /**
  * Denner API client.
@@ -21,10 +15,8 @@ use Rhumsaa\Uuid\Uuid;
  * @method array fetchAdvertisedArticle(array $params = array())
  * // @method array fetchPromotion(array $params = array())
  */
-class ArticlesClient extends ServiceClient
+class ArticlesClient extends AbstractClient
 {
-    use NormalizerAwareTrait;
-
     const CLIENT_VERSION = '0.1.0';
 
     public static function factory($options = array())
@@ -80,20 +72,5 @@ class ArticlesClient extends ServiceClient
         $client = new self($httpClient, $description);
 
         return $client;
-    }
-
-    public function listPromotions(array $params = array()) {
-        $rawResponse = $this->execute(
-            $this->getCommand(
-                'listPromotions',
-                isset($params[0]) ? $params[0] : $params
-            )
-        );
-
-        $response = $this->getNormalizer()->denormalize($rawResponse['promotions'][0], Promotion::CLASS);
-
-        die(var_dump($response, $rawResponse['promotions'][0]));
-
-
     }
 }

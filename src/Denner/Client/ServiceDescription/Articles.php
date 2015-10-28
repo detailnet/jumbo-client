@@ -46,7 +46,6 @@ return array(
             'responseClass' => 'AdvertisedArticle',
         ),
         'listPromotions' => array(
-            'class' => 'Denner\\Client\\Command\\OperationCommand',
             'httpMethod' => 'GET',
             'uri' => 'promotions',
             'summary' => 'List promotions',
@@ -64,31 +63,10 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-//            'responseClass' => 'ListPromotionsResponse',
-
-            // Use of own model response class documented here:
-            // http://guzzle3.readthedocs.org/webservice-client/guzzle-service-descriptions.html#responseclass
-            // Problem is that the Guzzle\Service\Command\OperationCommand can't handle it, an own
-            // command should be done.
-            // Possible implementation example here:
-            //   http://guzzle3.readthedocs.org/webservice-client/webservice-client.html
+            'model' => 'Denner\Common\Promotion\Promotion',
+            'rootNode' => 'promotions',
             'responseClass' => 'Promotion',
-////            'responseClass' => Promotion::CLASS,
         ),
-//        'fetchPromotion' => array(
-//            'httpMethod' => 'GET',
-//            'uri' => 'promotions/{promotion_id}',
-//            'summary' => 'Fetch a promotion',
-//            'parameters' => array(
-//                'promotion_id' => array(
-//                    'description' => 'The ID of the promotion to fetch',
-//                    'location' => 'uri',
-//                    'type' => 'string',
-//                    'required' => true,
-//                ),
-//            ),
-//            'responseClass' => 'Promotion',
-//        ),
     ),
     'models' => array(
         'PageParam' => array(
