@@ -1,0 +1,5 @@
+<?php
+
+return array(
+    'base_url' => 'http://denner-articles.public.web01.detailnet.me/api/'
+);

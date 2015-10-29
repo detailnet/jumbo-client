@@ -1,0 +1,66 @@
+{
+    "name": "detailnet/denner-client",
+    "description": "API Client for Denner Portal 2.0 Web Services",
+    "type": "library",
+    "keywords": [
+        "denner",
+        "detailnet",
+        "api",
+        "client"
+    ],
+    "homepage": "https://github.com/detailnet/denner-client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Wolf",
+            "email": "ivan.wolf@detailnet.ch"
+        },
+        {
+            "name": "Curzio Della Santa",
+            "email": "curzio.della.santa@detailnet.ch"
+        },
+        {
+            "name": "Kevin Jüni",
+            "email": "kevin.jueni@detailnet.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "guzzlehttp/guzzle": "~5.0",
+        "guzzlehttp/guzzle-services": "~0.5.0",
+        "mtdowling/jmespath.php": "~2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4.5",
+        "squizlabs/php_codesniffer" : "~2.2.0",
+        "phpmd/phpmd": "~2.1.3",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Denner\\Client\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "DennerTest\\Client\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": [
+            "!vendor",
+            "tests",
+            "*phpunit.xml",
+            ".coveralls.yml",
+            ".travis.yml",
+            "build.xml",
+            "build.properties",
+            "composer.phar"
+        ]
+    }
+}
