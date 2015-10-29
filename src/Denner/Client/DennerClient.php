@@ -2,13 +2,18 @@
 
 namespace Denner\Client;
 
+use ReflectionClass;
+
+//use GuzzleHttp\Event\HasEmitterTrait;
+
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Collection;
 use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
+use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescriptionInterface;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 
 use Denner\Client\Subscriber;
-use ReflectionClass;
 
 abstract class DennerClient extends ServiceClient
 {
@@ -72,6 +77,26 @@ abstract class DennerClient extends ServiceClient
         $client = new static($httpClient, $description);
 
         return $client;
+    }
+
+    /**
+     * @param HttpClientInterface $client
+     * @param ServiceDescriptionInterface $description
+     */
+    public function __construct(
+        HttpClientInterface $client,
+        ServiceDescriptionInterface $description
+    ) {
+        $config = array(
+            'process' => false, // Don't use Guzzle Service's processing (we're rolling our own...)
+        );
+
+        parent::__construct($client, $description, $config);
+
+        $emitter = $this->getEmitter();
+        $emitter->attach(
+            new Subscriber\ProcessResponse($description)
+        );
     }
 
     /**

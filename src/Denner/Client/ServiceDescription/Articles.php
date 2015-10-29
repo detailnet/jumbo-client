@@ -61,7 +61,8 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'ListPromotionsResponse',
+            'responseClass' => 'Denner\Client\Response\ListResponse',
+            'responseDataRoot' => 'promotions',
         ),
     ),
     'models' => array(
@@ -133,106 +134,6 @@ return array(
             'required' => false,
             'items' => array(
                 '$ref' => 'Sort',
-            ),
-        ),
-        'PageSizeProperty' => array(
-            'description' => 'The page size',
-            'location' => 'json',
-            'type' => 'integer',
-        ),
-        'PageCountProperty' => array(
-            'description' => 'The total number of pages',
-            'location' => 'json',
-            'type' => 'integer',
-        ),
-        'TotalItemsProperty' => array(
-            'description' => 'The total number of items',
-            'location' => 'json',
-            'type' => 'integer',
-        ),
-        'Week' => array(
-            'description' => 'Week',
-            'location' => 'json',
-            'type' => 'object',
-        ),
-        'AdvertisedArticle' => array(
-            'type' => 'object',
-            // Sub-objects have to be defined
-            'properties' => array(
-                'week' => array(
-                    '$ref' => 'Week',
-                ),
-            ),
-            // Keep properties dynamic
-            'additionalProperties' => array(
-                'location' => 'json',
-            ),
-        ),
-        'ListAdvertisedArticlesResponse' => array(
-            'type' => 'object',
-            'properties' => array(
-                'advertised_articles' => array(
-                    'description' => 'The resulting advertised articles',
-                    'location' => 'json',
-                    'type' => 'array',
-                    'items' => array(
-                        '$ref' => 'AdvertisedArticle',
-                    ),
-                ),
-                'page_size' => array(
-                    '$ref' => 'PageSizeProperty',
-                ),
-                'page_count' => array(
-                    '$ref' => 'PageCountProperty',
-                ),
-                'total_items' => array(
-                    '$ref' => 'TotalItemsProperty',
-                ),
-            ),
-        ),
-        'PromotionType' => array(
-            'type' => 'object',
-            // Keep properties dynamic
-            'additionalProperties' => array(
-                'location' => 'json',
-            ),
-        ),
-        'Promotion' => array(
-            'type' => 'object',
-            // Sub-objects have to be defined
-            'properties' => array(
-                'type' => array(
-                    '$ref' => 'PromotionType',
-                ),
-                'week' => array(
-                    '$ref' => 'Week',
-                ),
-            ),
-            // Keep properties dynamic
-            'additionalProperties' => array(
-                'location' => 'json',
-            ),
-        ),
-        'ListPromotionsResponse' => array(
-            'type' => 'object',
-            'properties' => array(
-                'promotions' => array(
-                    'description' => 'The resulting promotions',
-                    'location' => 'json',
-                    'type' => 'array',
-                    'items' => array(
-                        '$ref' => 'Promotion',
-                    ),
-                ),
-                'page_size' => array(
-                    '$ref' => 'PageSizeProperty',
-                ),
-                'page_count' => array(
-                    '$ref' => 'PageCountProperty',
-                ),
-                'total_items' => array(
-                    '$ref' => 'TotalItemsProperty',
-                ),
             ),
         ),
     ),
