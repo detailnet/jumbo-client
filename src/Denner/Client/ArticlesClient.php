@@ -13,11 +13,4 @@ use Denner\Client\Subscriber;
  */
 class ArticlesClient extends DennerClient
 {
-    /**
-     * @return string
-     */
-    protected static function getDefaultServiceUrl()
-    {
-        return 'https://denner-articles.detailnet.ch/api/';
-    }
 }
