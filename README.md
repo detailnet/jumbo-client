@@ -39,8 +39,8 @@ $config = array(
     'app_key' => 'your-app-key',
 );
 
-// Create the client
-$client = InsideClient::factory($config);
+// Create the client (e.g. the client for Denner Articles Service)
+$client = ArticlesClient::factory($config);
 
 // Send a request
 $params = array('week' => '50');
