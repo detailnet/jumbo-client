@@ -43,7 +43,7 @@ $response = $client->listPromotions($params);
 
 //var_dump($response);
 //var_dump($response->getItems());
-//var_dump($response->toArray());
+var_dump($response->toArray());
 
 //var_dump($response->count(), $response[2]);
 

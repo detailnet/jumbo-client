@@ -65,6 +65,30 @@ class ListResponse extends BaseResponse implements
     }
 
     /**
+     * @return integer
+     */
+    public function getItemCount()
+    {
+        return $this->count();
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getTotalItemCount()
+    {
+        return isset($this->getData()['total_items']) ? (integer) $this->getData()['total_items'] : null;
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getPageCount()
+    {
+        return isset($this->getData()['page_count']) ? (integer) $this->getData()['page_count'] : null;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
