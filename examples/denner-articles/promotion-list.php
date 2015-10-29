@@ -2,7 +2,7 @@
 
 use Denner\Client\ArticlesClient;
 
-$config = require 'bootstrap.php';
+$config = require realpath(__DIR__ . '/../bootstrap.php');
 $params = array();
 
 // Example: ?page=2

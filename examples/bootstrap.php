@@ -11,10 +11,18 @@ if (file_exists($basePath . 'vendor/autoload.php')) {
     );
 }
 
-if (!file_exists('config.php')) {
-    throw new RuntimeException(
-        'Missing configuration file "config.php"; make a copy of "config.php.dist" and update it'
-    );
+$config = array();
+
+$globalConfigFile = __DIR__  .'/config.php';
+
+if (file_exists($globalConfigFile)) {
+    $config = require $globalConfigFile;
 }
 
-return require 'config.php';
+// That that this is not the config.php in this directory
+// but the file in the directory where the script is running.
+if (file_exists('config.php')) {
+    $config = array_merge($config, require 'config.php');
+}
+
+return $config;
