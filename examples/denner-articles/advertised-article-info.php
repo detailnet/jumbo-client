@@ -2,7 +2,7 @@
 
 use Denner\Client\ArticlesClient;
 
-$config = require 'bootstrap.php';
+$config = require realpath(__DIR__ . '/../bootstrap.php');
 
 $advertisedArticleId = @$_GET['advertised_article_id'] ?: '44444444-aaaa-4444-aaaa-444444444444';
 

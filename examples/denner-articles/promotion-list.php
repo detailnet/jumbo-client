@@ -41,11 +41,4 @@ $client = ArticlesClient::factory($config);
 
 $response = $client->listPromotions($params);
 
-
-
 var_dump($response);
-
-foreach ($response as $promotion) {
-    /** @var \Denner\Common\Promotion\Promotion $promotion */
-    var_dump($promotion->getType());
-}

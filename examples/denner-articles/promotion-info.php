@@ -4,7 +4,7 @@ throw new \Exception('API endpoint /api/promotions/{promotion_id} (still) not av
 
 use Denner\Client\ArticlesClient;
 
-$config = require 'bootstrap.php';
+$config = require realpath(__DIR__ . '/../bootstrap.php');
 
 $promotionId = @$_GET['promotion_id'] ?: 'ad9b0489-3fd0-4101-963d-4cd43b545692';
 
