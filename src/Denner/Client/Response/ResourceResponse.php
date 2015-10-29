@@ -8,11 +8,8 @@ use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 use Denner\Client\Exception;
 
-class ResourceResponse extends BaseResponse implements
-    ResponseInterface
+class ResourceResponse extends BaseResponse
 {
-    use HasDataTrait;
-
     /**
      * @param Operation $operation
      * @param ProcessEvent $event
@@ -37,13 +34,5 @@ class ResourceResponse extends BaseResponse implements
     public function getResource()
     {
         return new Resource($this->getData());
-    }
-
-    /**
-     * @return array
-     */
-    protected function getIterationData()
-    {
-        return $this->getData();
     }
 }

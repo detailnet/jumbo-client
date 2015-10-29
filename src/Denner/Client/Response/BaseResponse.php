@@ -5,10 +5,13 @@ namespace Denner\Client\Response;
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 abstract class BaseResponse implements
+    ResponseInterface,
     \ArrayAccess,
     \Countable,
     \IteratorAggregate
 {
+    use HasDataTrait;
+
     /**
      * @var HttpResponseInterface
      */
@@ -46,5 +49,13 @@ abstract class BaseResponse implements
         $data = $this->getHttpResponse()->json() ?: array();
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getIterationData()
+    {
+        return $this->getData();
     }
 }

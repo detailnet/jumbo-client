@@ -8,11 +8,8 @@ use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 use Denner\Client\Exception;
 
-class ListResponse extends BaseResponse implements
-    ResponseInterface
+class ListResponse extends BaseResponse
 {
-    use HasDataTrait;
-
     /**
      * @var string
      */

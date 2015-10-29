@@ -4,8 +4,6 @@ namespace Denner\Client;
 
 use ReflectionClass;
 
-//use GuzzleHttp\Event\HasEmitterTrait;
-
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Collection;

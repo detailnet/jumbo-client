@@ -6,6 +6,7 @@ use ArrayIterator;
 
 use GuzzleHttp\Command\Event\ProcessEvent;
 use GuzzleHttp\Command\Guzzle\Operation;
+use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 interface ResponseInterface
 {
@@ -15,6 +16,11 @@ interface ResponseInterface
      * @return ResponseInterface
      */
     public static function fromOperation(Operation $operation, ProcessEvent $event);
+
+    /**
+     * @return HttpResponseInterface
+     */
+    public function getHttpResponse();
 
     /**
      * @return ArrayIterator

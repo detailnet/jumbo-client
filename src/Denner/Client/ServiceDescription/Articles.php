@@ -28,6 +28,7 @@ return array(
                 ),
             ),
             'responseClass' => 'Denner\Client\Response\ListResponse',
+            'responseDataRoot' => 'advertised_articles',
         ),
         'fetchAdvertisedArticle' => array(
             'httpMethod' => 'GET',
