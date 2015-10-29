@@ -3,7 +3,6 @@
 use Denner\Client\ArticlesClient;
 
 $config = require 'bootstrap.php';
-$normalizer = require 'bootstrap-normalizer.php';
 $params = array();
 
 // Example: ?page=2
@@ -39,10 +38,14 @@ $params['sort'] = array(
 );
 
 $client = ArticlesClient::factory($config);
-$client->setNormalizer($normalizer);
 
 $response = $client->listPromotions($params);
 
 
 
 var_dump($response);
+
+foreach ($response as $promotion) {
+    /** @var \Denner\Common\Promotion\Promotion $promotion */
+    var_dump($promotion->getType());
+}

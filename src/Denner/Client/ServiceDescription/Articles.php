@@ -1,9 +1,7 @@
 <?php
 
-use Denner\Client\Model\Promotion;
-
 return array(
-    'name' => 'Denner Articles',
+    'name' => 'Denner Articles Service',
     'operations' => array(
         'listAdvertisedArticles' => array(
             'httpMethod' => 'GET',
@@ -63,8 +61,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'model' => 'Denner\Common\Promotion\Promotion',
-            'responseClass' => 'Promotion',
+            'responseClass' => 'ListPromotionsResponse',
         ),
     ),
     'models' => array(
