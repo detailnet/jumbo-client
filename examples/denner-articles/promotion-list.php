@@ -41,12 +41,38 @@ $client = ArticlesClient::factory($config);
 
 $response = $client->listPromotions($params);
 
-//var_dump($response);
-//var_dump($response->getItems());
-var_dump($response->toArray());
+var_dump($response);
 
-//var_dump($response->count(), $response[2]);
+// Access the listings items
+$response->getResources();
 
-foreach ($response->getIterator() as $promotion) {
-    var_dump((string) $promotion);
+// Get item count
+$response->getResourceCount();
+
+// or just
+$response->count();
+
+// When the listing has multiple pages:
+// Get total item count
+$response->getTotalResourceCount();
+
+// Get page count
+$response->getPageCount();
+
+// Raw response data
+$response->toArray();
+
+// Iterating the list directly
+
+foreach ($response as $promotion) {
+    // Accessing a property in Array notation
+    $promotion['id'];
+
+    // Or use accessors
+    if ($promotion->has('week')) {
+        $promotion->get('week');
+    }
+
+    // For more complex access to hierarchical data use JMESPath
+    $promotion->search('week.number');
 }

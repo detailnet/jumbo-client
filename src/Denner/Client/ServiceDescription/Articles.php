@@ -27,7 +27,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'ListAdvertisedArticlesResponse',
+            'responseClass' => 'Denner\Client\Response\ListResponse',
         ),
         'fetchAdvertisedArticle' => array(
             'httpMethod' => 'GET',
@@ -41,7 +41,7 @@ return array(
                     'required' => true,
                 ),
             ),
-            'responseClass' => 'AdvertisedArticle',
+            'responseClass' => 'Denner\Client\Response\ResourceResponse',
         ),
         'listPromotions' => array(
             'httpMethod' => 'GET',

@@ -7,8 +7,13 @@ use JmesPath\Env as JmesPath;
 /**
  * Denner Service response.
  */
-class Resource
+class Resource implements
+    \ArrayAccess,
+    \Countable,
+    \IteratorAggregate
 {
+    use HasDataTrait;
+
     /**
      * @var array
      */
@@ -26,7 +31,7 @@ class Resource
      * @param string $name
      * @return boolean
      */
-    public function hasKey($name)
+    public function has($name)
     {
         return isset($this->data[$name]);
     }
@@ -66,5 +71,13 @@ expressions on the result data using the search() method.
 {$jsonData}
 
 EOT;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getIterationData()
+    {
+        return $this->data;
     }
 }
