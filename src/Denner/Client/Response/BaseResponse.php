@@ -33,6 +33,14 @@ abstract class BaseResponse implements
     /**
      * @return array
      */
+    public function toArray()
+    {
+        return $this->getData();
+    }
+
+    /**
+     * @return array
+     */
     protected function getData()
     {
         $data = $this->getHttpResponse()->json() ?: array();

@@ -48,5 +48,5 @@ var_dump($response->toArray());
 //var_dump($response->count(), $response[2]);
 
 foreach ($response->getIterator() as $promotion) {
-    var_dump($promotion);
+    var_dump((string) $promotion);
 }

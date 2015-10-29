@@ -9,8 +9,6 @@ use JmesPath\Env as JmesPath;
  */
 class Resource
 {
-    use HasDataTrait;
-
     /**
      * @var array
      */
@@ -61,20 +59,12 @@ class Resource
 Model Data
 ----------
 Data can be retrieved from the model object using the get() method of the
-model (e.g., `\$result->get(\$key)`) or "accessing the result like an
-associative array (e.g. `\$result['key']`). You can also execute JMESPath
+model (e.g., `\$resource->get(\$key)`) or "accessing the result like an
+associative array (e.g. `\$resource['key']`). You can also execute JMESPath
 expressions on the result data using the search() method.
 
 {$jsonData}
 
 EOT;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getIterationData()
-    {
-        return $this->data;
     }
 }

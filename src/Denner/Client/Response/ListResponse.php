@@ -53,21 +53,21 @@ class ListResponse extends BaseResponse implements
     /**
      * @return Resource[]
      */
-    public function getItems()
+    public function getResources()
     {
-        $items = array();
+        $resources = array();
 
-        foreach ($this->getRawItems() as $item) {
-            $items[] = new Resource($item);
+        foreach ($this->getRawResources() as $resource) {
+            $resources[] = new Resource($resource);
         }
 
-        return $items;
+        return $resources;
     }
 
     /**
      * @return integer
      */
-    public function getItemCount()
+    public function getResourceCount()
     {
         return $this->count();
     }
@@ -75,7 +75,7 @@ class ListResponse extends BaseResponse implements
     /**
      * @return integer|null
      */
-    public function getTotalItemCount()
+    public function getTotalResourceCount()
     {
         return isset($this->getData()['total_items']) ? (integer) $this->getData()['total_items'] : null;
     }
@@ -91,15 +91,7 @@ class ListResponse extends BaseResponse implements
     /**
      * @return array
      */
-    public function toArray()
-    {
-        return $this->getData();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRawItems()
+    protected function getRawResources()
     {
         $data = $this->getData();
 
@@ -129,6 +121,6 @@ class ListResponse extends BaseResponse implements
      */
     protected function getIterationData()
     {
-        return $this->getItems();
+        return $this->getResources();
     }
 }
