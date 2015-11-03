@@ -19,26 +19,6 @@ abstract class DennerClient extends ServiceClient
 
     public static function factory($options = array())
     {
-        $defaultOptions = array(
-            'base_url' => self::getDefaultServiceUrl(),
-            'defaults' => array(
-                // We're using our own error handler
-                // (this disabled the use of the internal HttpError subscriber)
-                'exceptions' => false,
-                // Float describing the number of seconds to wait while trying to connect to a server.
-                // 0 was the default (wait indefinitely).
-                'connect_timeout' => 10,
-                // Float describing the timeout of the request in seconds.
-                // 0 was the default (wait indefinitely).
-                'timeout' => 60, // 60 seconds, may be overridden by individual operations
-            ),
-        );
-
-        // If default options present, do a union with our $defaultOptions['defaults']
-        if (array_key_exists('defaults', $options)) {
-            $options['defaults'] += $defaultOptions['defaults'];
-        }
-
 //        $requiredOptions = array();
 //
 //        foreach ($requiredOptions as $optionName) {
@@ -49,7 +29,18 @@ abstract class DennerClient extends ServiceClient
 //            }
 //        }
 
-        $config = Collection::fromConfig($options, $defaultOptions);
+        // These are applied if not otherwise specified
+        $defaultOptions = array(
+            'base_url' => self::getDefaultServiceUrl(),
+            'defaults' => array(
+                // Float describing the number of seconds to wait while trying to connect to a server.
+                // 0 was the default (wait indefinitely).
+                'connect_timeout' => 10,
+                // Float describing the timeout of the request in seconds.
+                // 0 was the default (wait indefinitely).
+                'timeout' => 60, // 60 seconds, may be overridden by individual operations
+            ),
+        );
 
         $headers = array(
             'Accept' => 'application/json',
@@ -64,11 +55,20 @@ abstract class DennerClient extends ServiceClient
             $headers['App-Key'] = $options['app_key'];
         }
 
-        $httpClient = new HttpClient($config->toArray());
-        $httpClient->setDefaultOption(
-            'headers',
-            array_merge($httpClient->getDefaultOption('headers') ?: array(), $headers)
+        // These are always applied
+        $overrideOptions = array(
+            'defaults' => array(
+                // We're using our own error handler
+                // (this disables the use of the internal HttpError subscriber)
+                'exceptions' => false,
+                'headers' => $headers,
+            ),
         );
+
+        // Apply options
+        $config = array_replace_recursive($defaultOptions, $options, $overrideOptions);
+
+        $httpClient = new HttpClient($config);
         $httpClient->getEmitter()->attach(new Subscriber\ErrorHandler());
 
         $serviceDescriptionFile = __DIR__ . sprintf('/ServiceDescription/%s.php', self::getServiceDescriptionName());
