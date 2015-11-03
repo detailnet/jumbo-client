@@ -34,6 +34,11 @@ abstract class DennerClient extends ServiceClient
             ),
         );
 
+        // If default options present, do a union with our $defaultOptions['defaults']
+        if (array_key_exists('defaults', $options)) {
+            $options['defaults'] += $defaultOptions['defaults'];
+        }
+
 //        $requiredOptions = array();
 //
 //        foreach ($requiredOptions as $optionName) {
@@ -60,7 +65,10 @@ abstract class DennerClient extends ServiceClient
         }
 
         $httpClient = new HttpClient($config->toArray());
-        $httpClient->setDefaultOption('headers', $headers);
+        $httpClient->setDefaultOption(
+            'headers',
+            array_merge($httpClient->getDefaultOption('headers') ?: array(), $headers)
+        );
         $httpClient->getEmitter()->attach(new Subscriber\ErrorHandler());
 
         $serviceDescriptionFile = __DIR__ . sprintf('/ServiceDescription/%s.php', self::getServiceDescriptionName());
