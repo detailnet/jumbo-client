@@ -21,32 +21,31 @@ class ArticlesClient extends DennerClient
      */
     public function listPromotionsByWeek($year, $week, array $params = array())
     {
-        $weekFilters = array(
+        $filters = array(
             'year' => array('property' => 'year', 'value' => $year, 'operator' => '=', 'type' => 'integer'),
             'week' => array('property' => 'week', 'value' => $week, 'operator' => '=', 'type' => 'integer'),
         );
 
         // We may need to replace already existing filters
-        if (isset($params['filter']) && is_array($params['filter'])) {
-            $filters = array();
-
-            foreach ($params['filter'] as $filter) {
-                if (isset($filter['property']) && isset($weekFilters[$filter['property']])) {
-                    $filters[] = $weekFilters[$filter['property']];
-                    unset($weekFilters[$filter['property']]);
-                } else {
-                    $filters[] = $filter;
-                }
-            }
-
-            // Append remaining filters
-            $filters += $weekFilters;
-        } else {
-            $filters = array_values($weekFilters);
-        }
-
-        $params['filter'] = $filters;
+        $this->addOrReplaceFilters($filters, $params);
 
         return $this->listPromotions($params);
+    }
+
+    /**
+     * @param string $promotionId
+     * @param array $params
+     * @return Response\ListResponse
+     */
+    public function listAdvertisedArticlesByPromotion($promotionId, array $params = array())
+    {
+        $filters = array(
+            'promotion.id' => array('property' => 'promotion.id', 'value' => $promotionId, 'operator' => '=', 'type' => 'string'),
+        );
+
+        // We may need to replace an already existing filter
+        $this->addOrReplaceFilters($filters, $params);
+
+        return $this->listAdvertisedArticles($params);
     }
 }

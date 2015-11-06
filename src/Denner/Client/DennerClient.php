@@ -139,4 +139,32 @@ abstract class DennerClient extends ServiceClient
     {
         return self::getServiceName(false);
     }
+
+    /**
+     * @param array $filtersToAdd
+     * @param array $params
+     */
+    protected function addOrReplaceFilters(array $filtersToAdd, array &$params)
+    {
+        // We may need to replace already existing filters
+        if (isset($params['filter']) && is_array($params['filter'])) {
+            $filters = array();
+
+            foreach ($params['filter'] as $filter) {
+                if (isset($filter['property']) && isset($filtersToAdd[$filter['property']])) {
+                    $filters[] = $filtersToAdd[$filter['property']];
+                    unset($filtersToAdd[$filter['property']]);
+                } else {
+                    $filters[] = $filter;
+                }
+            }
+
+            // Append remaining filters
+            $filters += $filtersToAdd;
+        } else {
+            $filters = array_values($filtersToAdd);
+        }
+
+        $params['filter'] = $filters;
+    }
 }
