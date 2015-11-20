@@ -32,15 +32,17 @@ class ErrorHandler extends InternalErrorHandler
         $error = $response->getReasonPhrase(); // e.g. "Bad Request"
 
         try {
-            // We might be able to fetch an error message from the response
-            $responseData = $response->json();
+            if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
+                // We might be able to fetch an error message from the response
+                $responseData = $response->json();
 
-            if (isset($responseData['title'])) {
-                $error = $responseData['title'];
-            }
+                if (isset($responseData['title'])) {
+                    $error = $responseData['title'];
+                }
 
-            if (isset($responseData['detail'])) {
-                $error .= ': ' . $responseData['detail'];
+                if (isset($responseData['detail'])) {
+                    $error .= ': ' . $responseData['detail'];
+                }
             }
         } catch (ParseException $e) {
             // Do nothing
