@@ -89,7 +89,7 @@ return array(
                 ),
                 'value' => array(
                     'description' => 'The value to filter against',
-                    'type' => array('array', 'string'),
+                    'type' => array('array', 'string', 'integer'),
                     'required' => true,
                 ),
                 'operator' => array(
