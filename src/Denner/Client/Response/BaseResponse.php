@@ -3,6 +3,9 @@
 namespace Denner\Client\Response;
 
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
+use GuzzleHttp\Exception as GuzzleHttpException;
+
+use Denner\Client\Exception;
 
 abstract class BaseResponse implements
     ResponseInterface,
@@ -46,7 +49,15 @@ abstract class BaseResponse implements
      */
     protected function getData()
     {
-        $data = $this->getHttpResponse()->json() ?: array();
+        try {
+            $data = $this->getHttpResponse()->json() ?: array();
+        } catch (GuzzleHttpException\ParseException $e) {
+            throw new Exception\RuntimeException(
+                sprintf('Parse exception requesting \'%s\'', $e->getResponse()->getEffectiveUrl()),
+                $e->getCode(),
+                $e
+            );
+        }
 
         return $data;
     }
