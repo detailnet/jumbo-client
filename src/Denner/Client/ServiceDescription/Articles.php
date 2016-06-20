@@ -1,5 +1,7 @@
 <?php
 
+use Denner\Client\Response;
+
 return array(
     'name' => 'Denner Articles Service',
     'operations' => array(
@@ -27,7 +29,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'Denner\Client\Response\ListResponse',
+            'responseClass' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'advertised_articles',
         ),
         'fetchAdvertisedArticle' => array(
@@ -42,7 +44,7 @@ return array(
                     'required' => true,
                 ),
             ),
-            'responseClass' => 'Denner\Client\Response\ResourceResponse',
+            'responseClass' => Response\ResourceResponse::CLASS,
         ),
         'listPromotions' => array(
             'httpMethod' => 'GET',
@@ -62,7 +64,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'Denner\Client\Response\ListResponse',
+            'responseClass' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'promotions',
         ),
     ),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Denner\Client\Client\Exception;
+namespace Denner\Client\Exception;
 
 use GuzzleHttp\Command\Exception as CommandException;
 use GuzzleHttp\Exception as HttpException;

@@ -1,5 +1,7 @@
 <?php
 
+use Denner\Client\Response;
+
 return array(
     'name' => 'Denner Assets Service',
     'operations' => array(
@@ -27,7 +29,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => 'Denner\Client\Response\ListResponse',
+            'responseClass' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'assets',
         ),
         'fetchAsset' => array(
@@ -42,7 +44,7 @@ return array(
                     'required' => true,
                 ),
             ),
-            'responseClass' => 'Denner\Client\Response\ResourceResponse',
+            'responseClass' => Response\ResourceResponse::CLASS,
         ),
     ),
     'models' => array(

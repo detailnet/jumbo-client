@@ -6,16 +6,22 @@ use ReflectionClass;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
-use GuzzleHttp\Collection;
 use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
 use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescriptionInterface;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 
+use Denner\Client\Exception;
 use Denner\Client\Subscriber;
 
 abstract class DennerClient extends ServiceClient
 {
-    const CLIENT_VERSION = '0.1.0';
+    const CLIENT_VERSION = '0.3.0';
+
+    const OPTION_APP_ID  = 'app_id';
+    const OPTION_APP_KEY = 'app_key';
+
+    const HEADER_APP_ID  = 'App-ID';
+    const HEADER_APP_KEY = 'App-Key';
 
     public static function factory($options = array())
     {
@@ -47,12 +53,12 @@ abstract class DennerClient extends ServiceClient
             'User-Agent' => 'denner-client/' . self::CLIENT_VERSION,
         );
 
-        if (isset($options['app_id'])) {
-            $headers['App-ID'] = $options['app_id'];
+        if (isset($options[self::OPTION_APP_ID])) {
+            $headers[self::HEADER_APP_ID] = $options[self::OPTION_APP_ID];
         }
 
-        if (isset($options['app_key'])) {
-            $headers['App-Key'] = $options['app_key'];
+        if (isset($options[self::OPTION_APP_KEY])) {
+            $headers[self::HEADER_APP_KEY] = $options[self::OPTION_APP_KEY];
         }
 
         // These are always applied
@@ -69,7 +75,7 @@ abstract class DennerClient extends ServiceClient
         $config = array_replace_recursive($defaultOptions, $options, $overrideOptions);
 
         $httpClient = new HttpClient($config);
-        $httpClient->getEmitter()->attach(new Subscriber\ErrorHandler());
+        $httpClient->getEmitter()->attach(new Subscriber\Http\ProcessError());
 
         $serviceDescriptionFile = __DIR__ . sprintf('/ServiceDescription/%s.php', self::getServiceDescriptionName());
 
@@ -100,9 +106,32 @@ abstract class DennerClient extends ServiceClient
         parent::__construct($client, $description, $config);
 
         $emitter = $this->getEmitter();
-        $emitter->attach(
-            new Subscriber\ProcessResponse($description)
-        );
+        $emitter->attach(new Subscriber\Command\PrepareRequest($description));
+        $emitter->attach(new Subscriber\Command\ProcessResponse($description));
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getServiceAppId()
+    {
+        return $this->getHeaderOption(self::HEADER_APP_ID);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getServiceAppKey()
+    {
+        return $this->getHeaderOption(self::HEADER_APP_KEY);
+    }
+
+    /**
+     * @return string
+     */
+    public function getServiceUrl()
+    {
+        return $this->getHttpClient()->getBaseUrl();
     }
 
     /**
@@ -166,5 +195,32 @@ abstract class DennerClient extends ServiceClient
         }
 
         $params['filter'] = $filters;
+    }
+
+    /**
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     */
+    public function __call($method, array $args)
+    {
+        // It seems we can't intercept Guzzle's request exceptions through the event system...
+        // e.g. when the endpoint is unreachable or the request times out.
+        try {
+            return parent::__call($method, $args);
+        } catch (\Exception $e) {
+            throw Exception\OperationException::wrapException($e);
+        }
+    }
+
+    /**
+     * @param string $option
+     * @return string|null
+     */
+    protected function getHeaderOption($option)
+    {
+        $headers = $this->getHttpClient()->getDefaultOption('headers');
+
+        return array_key_exists($option, $headers) ? $headers[$option] : null;
     }
 }

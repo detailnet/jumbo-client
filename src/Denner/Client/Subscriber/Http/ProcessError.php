@@ -1,13 +1,13 @@
 <?php
 
-namespace Denner\Client\Subscriber;
+namespace Denner\Client\Subscriber\Http;
 
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Exception\ParseException;
 use GuzzleHttp\Message\ResponseInterface as Response;
-use GuzzleHttp\Subscriber\HttpError as InternalErrorHandler;
+use GuzzleHttp\Subscriber\HttpError;
 
-class ErrorHandler extends InternalErrorHandler
+class ProcessError extends HttpError
 {
     /**
      * @param CompleteEvent $event
@@ -15,7 +15,7 @@ class ErrorHandler extends InternalErrorHandler
     public function onComplete(CompleteEvent $event)
     {
         $response = $event->getResponse();
-        $response->setReasonPhrase($this->getErrorMessage($response));
+        $response->setReasonPhrase($this->extractErrorMessage($response));
 
         parent::onComplete($event);
     }
@@ -26,7 +26,7 @@ class ErrorHandler extends InternalErrorHandler
      * @param Response $response
      * @return string
      */
-    protected function getErrorMessage(Response $response)
+    protected function extractErrorMessage(Response $response)
     {
         // This is the default:
         $error = $response->getReasonPhrase(); // e.g. "Bad Request"

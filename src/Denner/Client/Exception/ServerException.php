@@ -1,6 +1,6 @@
 <?php
 
-namespace Denner\Client\Client\Exception;
+namespace Denner\Client\Exception;
 
 class ServerException extends OperationException
 {
