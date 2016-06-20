@@ -5,9 +5,6 @@ Currently, the following examples can be found here:
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
 | [denner-articles/advertised-article-info.php](denner-articles/advertised-article-info.php) | Fetch a single advertised article                                      |
 | [denner-articles/advertised-article-list.php](denner-articles/advertised-article-list.php) | List advertised articles (paging, filtering and sorting are supported) |
-<!--- 
-| [denner-articles/promotion-info.php](denner-articles/promotion-info.php)                   | Fetch a single promotion                                               | 
---->
 | [denner-articles/promotion-list.php](denner-articles/promotion-list.php)                   | List promotions (paging, filtering and sorting are supported)          |
 | [denner-assets/asset-info.php](denner-assets/asset-info.php)                               | Fetch a single asset                                                   |
 | [denner-assets/asset-list.php](denner-assets/asset-list.php)                               | List assets (paging, filtering and sorting are supported)              |
