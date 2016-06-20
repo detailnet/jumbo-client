@@ -31,9 +31,9 @@
         "mtdowling/jmespath.php": "~2.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.4.5",
-        "squizlabs/php_codesniffer" : "~2.2.0",
-        "phpmd/phpmd": "~2.1.3",
+        "phpunit/phpunit": "~4.6",
+        "squizlabs/php_codesniffer" : "~2.2.03",
+        "phpmd/phpmd": "~2.2",
         "satooshi/php-coveralls": "~1.0"
     },
     "autoload": {
