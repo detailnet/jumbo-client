@@ -75,7 +75,7 @@ return array(
                 ),
             ),
             'responseClass' => Response\ListResponse::CLASS,
-            'responseDataRoot' => 'wines',
+            'responseDataRoot' => 'articles',
         ),
     ),
     'models' => array(
