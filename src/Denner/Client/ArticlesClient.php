@@ -9,6 +9,9 @@ use Denner\Client\Response;
  *
  * @method Response\ListResponse listAdvertisedArticles(array $params = array())
  * @method Response\ResourceResponse fetchAdvertisedArticle(array $params = array())
+ * @method Response\ResourceResponse updateAdvertisedArticle(array $params = array())
+ * @method Response\ListResponse listLanguages(array $params = array())
+ * @method Response\ResourceResponse fetchLanguage(array $params = array())
  * @method Response\ListResponse listPromotions(array $params = array())
  */
 class ArticlesClient extends DennerClient

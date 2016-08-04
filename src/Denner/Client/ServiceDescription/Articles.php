@@ -46,6 +46,45 @@ return array(
             ),
             'responseClass' => Response\ResourceResponse::CLASS,
         ),
+        'updateAdvertisedArticle' => array(
+            'httpMethod' => 'PATCH',
+            'uri' => 'advertised-articles/{advertised_article_id}',
+            'summary' => 'Patch an advertisedArticle',
+            'parameters' => array(
+                'advertised_article_id' => array(
+                    'description' => 'The ID of the advertised article to patch',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+            ),
+            'additionalParameters' => array(
+                'location' => 'json',
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
+        'listLanguages' => array(
+            'httpMethod' => 'GET',
+            'uri' => 'languages',
+            'summary' => 'List languages',
+            'parameters' => array(
+                'page' => array(
+                    '$ref' => 'PageParam',
+                ),
+                'page_size' => array(
+                    '$ref' => 'PageSizeParam',
+                ),
+//                ),
+                'filter' => array(
+                    '$ref' => 'FilterParam',
+                ),
+                'sort' => array(
+                    '$ref' => 'SortParam',
+                ),
+            ),
+            'responseClass' => Response\ListResponse::CLASS,
+            'responseDataRoot' => 'languages',
+        ),
         'listPromotions' => array(
             'httpMethod' => 'GET',
             'uri' => 'promotions',
