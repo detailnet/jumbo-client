@@ -12,7 +12,7 @@ if (!$advertisedArticleId) {
 
 $params = array(
     'advertised_article_id' => $advertisedArticleId,
-    'remarks' => 'Das ist ein Test',
+    'manuscript_notes' => 'This is a test',
 );
 
 $client = ArticlesClient::factory($config);

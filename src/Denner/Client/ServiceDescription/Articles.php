@@ -49,10 +49,10 @@ return array(
         'updateAdvertisedArticle' => array(
             'httpMethod' => 'PATCH',
             'uri' => 'advertised-articles/{advertised_article_id}',
-            'summary' => 'Patch an advertisedArticle',
+            'summary' => 'Update an advertisedArticle',
             'parameters' => array(
                 'advertised_article_id' => array(
-                    'description' => 'The ID of the advertised article to patch',
+                    'description' => 'The ID of the advertised article to update',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
