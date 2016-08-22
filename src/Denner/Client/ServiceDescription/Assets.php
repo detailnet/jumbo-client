@@ -70,7 +70,7 @@ return array(
                 ),
                 'value' => array(
                     'description' => 'The value to filter against',
-                    'type' => array('array', 'string', 'integer', 'boolean'),
+                    'type' => array('array', 'string', 'integer', 'boolean', 'number', 'numeric', 'object'),
                     'required' => true,
                 ),
                 'operator' => array(
