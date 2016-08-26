@@ -9,6 +9,9 @@ use Denner\Client\Response;
  *
  * @method Response\ListResponse listAdvertisedArticles(array $params = array())
  * @method Response\ResourceResponse fetchAdvertisedArticle(array $params = array())
+ * @method Response\ResourceResponse updateAdvertisedArticle(array $params = array())
+ * @method Response\ListResponse listLanguages(array $params = array())
+ * @method Response\ResourceResponse fetchLanguage(array $params = array())
  * @method Response\ListResponse listPromotions(array $params = array())
  */
 class ArticlesClient extends DennerClient
@@ -30,6 +33,25 @@ class ArticlesClient extends DennerClient
         $this->addOrReplaceFilters($filters, $params);
 
         return $this->listPromotions($params);
+    }
+
+    /**
+     * @param integer $year
+     * @param integer $week
+     * @param array $params
+     * @return Response\ListResponse
+     */
+    public function listAdvertisedArticlesByWeek($year, $week, array $params = array())
+    {
+        $filters = array(
+            'year' => array('property' => 'year', 'value' => $year, 'operator' => '=', 'type' => 'integer'),
+            'week' => array('property' => 'week', 'value' => $week, 'operator' => '=', 'type' => 'integer'),
+        );
+
+        // We may need to replace an already existing filter
+        $this->addOrReplaceFilters($filters, $params);
+
+        return $this->listAdvertisedArticles($params);
     }
 
     /**
