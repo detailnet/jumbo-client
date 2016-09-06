@@ -46,6 +46,48 @@ return array(
             ),
             'responseClass' => Response\ResourceResponse::CLASS,
         ),
+        'listAssetCollections' => array(
+            'httpMethod' => 'GET',
+            'uri' => 'asset-collections',
+            'summary' => 'List asset collections',
+            'parameters' => array(
+                'page' => array(
+                    '$ref' => 'PageParam',
+                ),
+                'page_size' => array(
+                    '$ref' => 'PageSizeParam',
+                ),
+                'filter' => array(
+                    '$ref' => 'FilterParam',
+                ),
+                'sort' => array(
+                    '$ref' => 'SortParam',
+                ),
+            ),
+            'responseClass' => Response\ListResponse::CLASS,
+            'responseDataRoot' => 'asset_collections',
+        ),
+        'listPurposes' => array(
+            'httpMethod' => 'GET',
+            'uri' => 'purposes',
+            'summary' => 'List asset purposes',
+            'parameters' => array(
+                'page' => array(
+                    '$ref' => 'PageParam',
+                ),
+                'page_size' => array(
+                    '$ref' => 'PageSizeParam',
+                ),
+                'filter' => array(
+                    '$ref' => 'FilterParam',
+                ),
+                'sort' => array(
+                    '$ref' => 'SortParam',
+                ),
+            ),
+            'responseClass' => Response\ListResponse::CLASS,
+            'responseDataRoot' => 'purposes',
+        ),
     ),
     'models' => array(
         'PageParam' => array(
