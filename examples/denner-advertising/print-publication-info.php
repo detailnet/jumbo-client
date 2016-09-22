@@ -14,4 +14,4 @@ $client = AdvertisingClient::factory($config);
 
 $response = $client->fetchPrintPublication(array('print_publication_id' => $printPublicationId));
 
-var_dump($response);
+var_dump("Response:", $response, "Data:", $response->toArray());
