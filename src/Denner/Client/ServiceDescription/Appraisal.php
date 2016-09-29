@@ -64,13 +64,15 @@ return array(
             'required' => false,
         ),
         'FilterCountParam' => array(
-            'description' => 'Filter by count, e.g. "f.count=__gte_10" will return all article rating infos which have at least 10 valid appraisals.',
+            'description' =>
+                'Filter by count, e.g. "f.count=__gte_10" will return all article rating infos which have at least 10 valid appraisals.',
             'location' => 'query',
             'type' => 'string',
             'required' => false
         ),
         'FilterValueParam' => array(
-            'description' => 'Filter by average value, e.g. "f.value=__gte_4" will return all article rating infos which value is at least 4.',
+            'description' =>
+                'Filter by average value, e.g. "f.value=__gte_4" will return all article rating infos which value is at least 4.',
             'location' => 'query',
             'type' => 'string',
             'required' => false
