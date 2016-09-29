@@ -3,6 +3,8 @@ Currently, the following examples can be found here:
 
 | File                                                                                           | Description                                                            |
 | -----------------------------------------------------------------------------------------------| ---------------------------------------------------------------------- |
+| [denner-advertising/print-publication-info.php](denner-advertising/print-publication-info.php) | Fetch a single print publication                                       |
+| [denner-advertising/print-publication-list.php](denner-advertising/print-publication-list.php) | List print publications (paging, filtering and sorting are supported)  |
 | [denner-articles/advertised-article-info.php](denner-articles/advertised-article-info.php)     | Fetch a single advertised article                                      |
 | [denner-articles/advertised-article-list.php](denner-articles/advertised-article-list.php)     | List advertised articles (paging, filtering and sorting are supported) |
 | [denner-articles/advertised-article-update.php](denner-articles/advertised-article-update.php) | Update an advertised article                                           |
