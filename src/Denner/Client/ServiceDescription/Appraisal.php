@@ -16,12 +16,6 @@ return array(
                 'page_size' => array(
                     '$ref' => 'PageSizeParam',
                 ),
-//                'query' => array(
-//                    'description' => 'Full text search query (currently searches only in advertised article name)',
-//                    'location' => 'query',
-//                    'type' => 'string',
-//                    'required' => false,
-//                ),
                 'f.count' => array(
                     '$ref' => 'FilterCountParam',
                 ),
