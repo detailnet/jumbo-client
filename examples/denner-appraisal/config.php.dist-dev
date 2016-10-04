@@ -1,0 +1,6 @@
+<?php
+
+return array(
+    'base_url' => 'https://denner-api.detailnet.ch/test/',
+    'app_key' => 'your-key',
+);
