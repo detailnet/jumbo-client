@@ -5,7 +5,7 @@ namespace Denner\Client;
 use Denner\Client\Response;
 
 /**
- * Denner Articles Service client.
+ * Denner Translations Service client.
  *
  * @method Response\ListResponse listJobs(array $params = array())
  * @method Response\ResourceResponse updateJob(array $params = array())
