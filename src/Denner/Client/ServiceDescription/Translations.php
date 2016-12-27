@@ -75,7 +75,9 @@ return array(
         ),
         'FilterItemIdParam' => array(
             'description' =>
-                'Filter by item id value (to be used in combination with f.item.type), e.g. "f.item.type=article&f.item.id=__in_051051||051052" will return all article translations jobs for articles "051051" and "051052" texts',
+                'Filter by item id value (to be used in combination with f.item.type), ' .
+                'e.g. "f.item.type=article&f.item.id=__in_051051||051052" will return all article translations jobs ' .
+                'for articles "051051" and "051052" texts',
             'location' => 'query',
             'type' => 'string',
             'required' => false
@@ -89,7 +91,8 @@ return array(
         ),
         'FilterStatusParam' => array(
             'description' =>
-                'Filter by status, e.g. "f.status=__in_open||translated" will return all translations jobs whose status is "open" or "translated"',
+                'Filter by status, e.g. "f.status=__in_open||translated" will return all translations jobs whose ' .
+                'status is "open" or "translated"',
             'location' => 'query',
             'type' => 'string',
             'required' => false
