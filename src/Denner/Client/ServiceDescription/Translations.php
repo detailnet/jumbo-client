@@ -33,14 +33,14 @@ return array(
                 ),
             ),
             'responseClass' => Response\ListResponse::CLASS,
-            'responseDataRoot' => 'translations',
+            'responseDataRoot' => 'jobs',
         ),
         'updateJob' => array(
             'httpMethod' => 'PATCH',
-            'uri' => 'jobs/{job_id}',
+            'uri' => 'jobs/{id}',
             'summary' => 'Update a translation job',
             'parameters' => array(
-                'job_id' => array(
+                'id' => array(
                     'description' => 'The ID of the translation job to update',
                     'location' => 'uri',
                     'type' => 'string',
@@ -68,7 +68,7 @@ return array(
         ),
         'FilterItemTypeParam' => array(
             'description' =>
-                'Filter by item type, e.g. "f.item.type=article" will return all translations jobs for article texts.',
+                'Filter by item type, e.g. "f.item.type=__streq_article" will return all translations jobs for article texts.',
             'location' => 'query',
             'type' => 'string',
             'required' => false
@@ -76,7 +76,7 @@ return array(
         'FilterItemIdParam' => array(
             'description' =>
                 'Filter by item id value (to be used in combination with f.item.type), ' .
-                'e.g. "f.item.type=article&f.item.id=__in_051051||051052" will return all article translations jobs ' .
+                'e.g. "f.item.type=__streq_article&f.item.id=__in_051051||051052" will return all article translations jobs ' .
                 'for articles "051051" and "051052" texts',
             'location' => 'query',
             'type' => 'string',
@@ -84,7 +84,7 @@ return array(
         ),
         'FilterSourceLanguageParam' => array(
             'description' =>
-                'Filter by source_language, e.g. "f.source_language=de" will return all translations jobs whose source language is german',
+                'Filter by source_language, e.g. "f.source_language=__streq_de" will return all translations jobs whose source language is german',
             'location' => 'query',
             'type' => 'string',
             'required' => false

@@ -19,13 +19,8 @@ class TranslationsClient extends DennerClient
      */
     public function listJobsByArticle($articleId, array $params = array())
     {
-        $filters = array(
-            'f.item.type' => 'article',
-            'f.item.id' => $articleId,
-        );
-
-        // We may need to replace an already existing filter
-        $this->addOrReplaceFilters($filters, $params);
+        $params['f.item.type'] = '__streq_article';
+        $params['f.item.id'] = '__streq_' . $articleId;
 
         return $this->listJobs($params);
     }
@@ -36,12 +31,7 @@ class TranslationsClient extends DennerClient
      */
     public function listTranslatedJobs(array $params = array())
     {
-        $filters = array(
-            'f.status' => 'translated',
-        );
-
-        // We may need to replace an already existing filter
-        $this->addOrReplaceFilters($filters, $params);
+        $params['f.status'] = '__streq_translated';
 
         return $this->listJobs($params);
     }
