@@ -33,6 +33,7 @@ $params['sort'] = array(
 
 $client = AssetsClient::factory($config);
 
+/** @var \GuzzleHttp\Command\Result $response */
 $response = $client->listAssets($params);
 
 var_dump($response);

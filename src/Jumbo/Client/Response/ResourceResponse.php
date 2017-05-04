@@ -2,28 +2,19 @@
 
 namespace Jumbo\Client\Response;
 
-use GuzzleHttp\Command\Event\ProcessEvent;
+use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
-use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 class ResourceResponse extends BaseResponse
 {
     /**
      * @param Operation $operation
-     * @param ProcessEvent $event
-     * @return ResponseInterface
+     * @param HttpResponse $response
+     * @return ResourceResponse
      */
-    public static function fromOperation(Operation $operation, ProcessEvent $event)
+    public static function fromOperation(Operation $operation, HttpResponse $response)
     {
-        return new static($event->getResponse());
-    }
-
-    /**
-     * @param HttpResponseInterface $response
-     */
-    public function __construct(HttpResponseInterface $response)
-    {
-        parent::__construct($response);
+        return new static($response);
     }
 
     /**

@@ -2,9 +2,8 @@
 
 namespace Jumbo\Client\Response;
 
-use GuzzleHttp\Command\Event\ProcessEvent;
+use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
-use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 use Jumbo\Client\Exception;
 
@@ -17,10 +16,10 @@ class ListResponse extends BaseResponse
 
     /**
      * @param Operation $operation
-     * @param ProcessEvent $event
-     * @return ResponseInterface
+     * @param HttpResponse $response
+     * @return ListResponse
      */
-    public static function fromOperation(Operation $operation, ProcessEvent $event)
+    public static function fromOperation(Operation $operation, HttpResponse $response)
     {
         $operationConfig = $operation->toArray();
 
@@ -33,14 +32,14 @@ class ListResponse extends BaseResponse
             );
         }
 
-        return new static($event->getResponse(), $operationConfig['responseDataRoot']);
+        return new static($response, $operationConfig['responseDataRoot']);
     }
 
     /**
-     * @param HttpResponseInterface $response
+     * @param HttpResponse $response
      * @param string $dataRoot
      */
-    public function __construct(HttpResponseInterface $response, $dataRoot)
+    public function __construct(HttpResponse $response, $dataRoot)
     {
         parent::__construct($response);
 
