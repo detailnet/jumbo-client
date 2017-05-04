@@ -46,6 +46,26 @@ return array(
             ),
             'responseClass' => Response\ResourceResponse::CLASS,
         ),
+        'downloadAsset' => array(
+            'httpMethod' => 'POST',
+            'uri' => 'assets/{asset_id}/downloads',
+            'summary' => 'Download an asset (get the download URL)',
+            'parameters' => array(
+                'asset_id' => array(
+                    'description' => 'The ID of the asset to download',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'expire_after' => array(
+                    'description' => 'The number of seconds after which the download URL expires',
+                    'location' => 'json',
+                    'type' => 'integer',
+                    'required' => false,
+                ),
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
         'listAssetCollections' => array(
             'httpMethod' => 'GET',
             'uri' => 'asset-collections',

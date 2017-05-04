@@ -32,11 +32,14 @@ class Deserializer
      * @param PsrResponse $response
      * @param PsrRequest|null $request
      * @param CommandInterface $command
-     * @return Response
+     * @return Response|null
      */
     public function __invoke(PsrResponse $response, PsrRequest $request, CommandInterface $command)
     {
-        if ($response->getStatusCode() >= 400) {
+        // No exception for Not Found errors
+        if ($response->getStatusCode() == 404) {
+            return null;
+        } elseif ($response->getStatusCode() >= 400) {
             throw RequestException::create($request, $response);
         }
 

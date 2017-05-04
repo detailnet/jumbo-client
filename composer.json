@@ -12,12 +12,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Curzio Della Santa",
-            "email": "curzio.della.santa@detailnet.ch"
-        },
-        {
             "name": "Christian Schmid",
             "email": "christian.schmid@detailnet.ch"
+        },
+        {
+            "name": "Curzio Della Santa",
+            "email": "curzio.della.santa@detailnet.ch"
         },
         {
             "name": "Ivan Wolf",

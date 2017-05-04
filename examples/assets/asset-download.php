@@ -5,6 +5,7 @@ use Jumbo\Client\AssetsClient;
 $config = require realpath(__DIR__ . '/../bootstrap.php');
 
 $assetId = @$_GET['asset_id'] ?: '44444444-aaaa-4444-aaaa-444444444444';
+$expireAfter = @$_GET['expire_after'] ? (int) $_GET['expire_after'] : null;
 
 if (!$assetId) {
     throw new RuntimeException('Missing or invalid parameter "asset_id"');
@@ -12,6 +13,6 @@ if (!$assetId) {
 
 $client = AssetsClient::factory($config);
 
-$resource = $client->fetchAsset($assetId);
+$url = $client->downloadAsset($assetId, $expireAfter);
 
-var_dump($resource);
+var_dump($url);

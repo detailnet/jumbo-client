@@ -15,25 +15,24 @@ if (isset($_GET['page_size'])) {
     $params['page_size'] = (int) $_GET['page_size'];
 }
 
-$params['filter'] = array(
-    array(
-        'property' => 'status',
-        'value' => 'complete',
-        'operator' => '=', // equals
-        'type' => 'string',
-    ),
-);
+//$params['filter'] = array(
+//    array(
+//        'property' => 'status',
+//        'value' => 'complete',
+//        'operator' => '=', // equals
+//        'type' => 'string',
+//    ),
+//);
 
 $params['sort'] = array(
     array(
-        'property' => 'id',
+        'property' => 'created_on',
         'direction' => 'desc',
     ),
 );
 
 $client = AssetsClient::factory($config);
 
-/** @var \GuzzleHttp\Command\Result $response */
 $response = $client->listAssets($params);
 
-var_dump($response);
+var_dump($response->toArray());
