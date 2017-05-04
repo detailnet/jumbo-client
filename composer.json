@@ -1,14 +1,14 @@
 {
-    "name": "detailnet/denner-client",
-    "description": "API Client for Denner Portal 2.0 Web Services",
+    "name": "detailnet/jumbo-client",
+    "description": "API Client for Jumbo Web Services",
     "type": "library",
     "keywords": [
-        "denner",
+        "jumbo",
         "detailnet",
         "api",
         "client"
     ],
-    "homepage": "https://github.com/detailnet/denner-client",
+    "homepage": "https://github.com/detailnet/jumbo-client",
     "license": "MIT",
     "authors": [
         {
@@ -38,12 +38,12 @@
     },
     "autoload": {
         "psr-0": {
-            "Denner\\Client\\": "src/"
+            "Jumbo\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-0": {
-            "DennerTest\\Client\\": "tests/"
+            "JumboTest\\Client\\": "tests/"
         }
     },
     "extra": {

@@ -1,11 +1,11 @@
-# denner-client
+# jumbo-client
 
-[![Build Status](https://travis-ci.org/detailnet/denner-client.svg?branch=master)](https://travis-ci.org/detailnet/denner-client)
-[![Coverage Status](https://img.shields.io/coveralls/detailnet/denner-client.svg)](https://coveralls.io/r/detailnet/denner-client)
-[![Latest Stable Version](https://poser.pugx.org/detailnet/denner-client/v/stable.svg)](https://packagist.org/packages/detailnet/denner-client)
-[![Latest Unstable Version](https://poser.pugx.org/detailnet/denner-client/v/unstable.svg)](https://packagist.org/packages/detailnet/denner-client)
+[![Build Status](https://travis-ci.org/detailnet/jumbo-client.svg?branch=master)](https://travis-ci.org/detailnet/jumbo-client)
+[![Coverage Status](https://img.shields.io/coveralls/detailnet/jumbo-client.svg)](https://coveralls.io/r/detailnet/jumbo-client)
+[![Latest Stable Version](https://poser.pugx.org/detailnet/jumbo-client/v/stable.svg)](https://packagist.org/packages/detailnet/jumbo-client)
+[![Latest Unstable Version](https://poser.pugx.org/detailnet/jumbo-client/v/unstable.svg)](https://packagist.org/packages/detailnet/jumbo-client)
 
-API Client for Denner Portal 2.0 Web Services
+API Client for Jumbo Web Services
 
 ## Installation
 Install the library through [Composer](http://getcomposer.org/) using the following steps:
@@ -17,7 +17,7 @@ Install the library through [Composer](http://getcomposer.org/) using the follow
      ```json
      {
          "require": {
-             "detailnet/denner-client": "1.x-dev"
+             "detailnet/jumbo-client": "1.x-dev"
          }
      }
      ```
@@ -39,12 +39,12 @@ $config = array(
     'app_key' => 'your-app-key',
 );
 
-// Create the client (e.g. the client for Denner Articles Service)
-$client = ArticlesClient::factory($config);
+// Create the client (e.g. the client for Jumbo Assets Service)
+$client = AssetsClient::factory($config);
 
 // Send a request
-$params = array('week' => '50');
-$response = $client->listAdvertisedArticles($params);
+$params = array('query' => 'test');
+$response = $client->listAssets($params);
 ```
 
 More examples can be found in the [examples](examples) directory.

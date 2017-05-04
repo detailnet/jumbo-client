@@ -1,5 +1,0 @@
-<?php
-
-return array(
-    'base_url' => 'http://denner-advertising.public.web01.detailnet.me/api/'
-);
