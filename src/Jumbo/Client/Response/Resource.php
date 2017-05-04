@@ -4,13 +4,11 @@ namespace Jumbo\Client\Response;
 
 use JmesPath\Env as JmesPath;
 
-class Resource implements
-    \ArrayAccess,
-    \Countable,
-    \IteratorAggregate
-{
-    use HasDataTrait;
+use Jumbo\Client\Exception;
 
+class Resource implements
+    \ArrayAccess
+{
     /**
      * @var array
      */
@@ -25,21 +23,22 @@ class Resource implements
     }
 
     /**
-     * @param string $name
+     * @param string $key
      * @return boolean
      */
-    public function has($name)
+    public function has($key)
     {
-        return isset($this->data[$name]);
+        return $this->get($key) !== null;
     }
 
     /**
      * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        return $this[$key];
+        return isset($this->data[$key]) ? $this->data[$key] : $default;
     }
 
     /**
@@ -49,6 +48,14 @@ class Resource implements
     public function search($expression)
     {
         return JmesPath::search($expression, $this->data);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->data;
     }
 
     /**
@@ -71,10 +78,41 @@ EOT;
     }
 
     /**
-     * @return array
+     * @param string|integer $offset
+     * @return mixed|null
      */
-    protected function getIterationData()
+    public function offsetGet($offset)
     {
-        return $this->data;
+        return $this->get($offset);
+    }
+
+    /**
+     * @param string|integer $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        throw new Exception\RuntimeException(
+            sprintf('Resource is read-only; cannot set "%s"', $offset)
+        );
+    }
+
+    /**
+     * @param string|integer $offset
+     * @return boolean
+     */
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * @param string|integer $offset
+     */
+    public function offsetUnset($offset)
+    {
+        throw new Exception\RuntimeException(
+            sprintf('Resource is read-only; cannot unset "%s"', $offset)
+        );
     }
 }

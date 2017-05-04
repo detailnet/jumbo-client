@@ -8,6 +8,11 @@ use GuzzleHttp\Command\Guzzle\Operation;
 class ResourceResponse extends BaseResponse
 {
     /**
+     * @var \Jumbo\Client\Response\Resource
+     */
+    protected $resource;
+
+    /**
      * @param Operation $operation
      * @param HttpResponse $response
      * @return ResourceResponse
@@ -18,10 +23,20 @@ class ResourceResponse extends BaseResponse
     }
 
     /**
+     * @param HttpResponse $response
+     */
+    public function __construct(HttpResponse $response)
+    {
+        parent::__construct($response);
+
+        $this->resource = new Resource($this->getData());
+    }
+
+    /**
      * @return \Jumbo\Client\Response\Resource
      */
     public function getResource()
     {
-        return new Resource($this->getData());
+        return $this->resource;
     }
 }

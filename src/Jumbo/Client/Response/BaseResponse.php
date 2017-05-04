@@ -10,12 +10,15 @@ use Jumbo\Client\Exception;
 abstract class BaseResponse implements
     Response
 {
-    use HasDataTrait;
-
     /**
      * @var HttpResponse
      */
     protected $response;
+
+    /**
+     * @var array
+     */
+    protected $data;
 
     /**
      * @param HttpResponse $response
@@ -23,6 +26,7 @@ abstract class BaseResponse implements
     public function __construct(HttpResponse $response)
     {
         $this->response = $response;
+        $this->data = $this->extractData();
     }
 
     /**
@@ -46,24 +50,24 @@ abstract class BaseResponse implements
      */
     protected function getData()
     {
-        try {
-            $data = $this->getHttpResponse()->json() ?: array();
-        } catch (GuzzleException\RuntimeException $e) {
-            throw new Exception\RuntimeException(
-                sprintf('Failed decode data from HTTP response: %s', $e->getMessage()),
-                $e->getCode(),
-                $e
-            );
-        }
-
-        return $data;
+        return $this->data;
     }
 
     /**
      * @return array
      */
-    protected function getIterationData()
+    private function extractData()
     {
-        return $this->getData();
+        try {
+            $data = $this->getHttpResponse()->json();
+
+            return is_array($data) ? $data : array();
+        } catch (GuzzleException\RuntimeException $e) {
+            throw new Exception\RuntimeException(
+                sprintf('Failed extract data from HTTP response: %s', $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 }
