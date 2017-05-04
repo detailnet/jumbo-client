@@ -2,17 +2,25 @@
 
 namespace Jumbo\Client\Response;
 
+use ArrayIterator;
+
 use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
 
 use Jumbo\Client\Exception;
 
-class ListResponse extends BaseResponse
+class ListResponse extends BaseResponse implements
+    \IteratorAggregate
 {
+    /**
+     * @var \Jumbo\Client\Response\Resource[]
+     */
+    protected $resources = array();
+
     /**
      * @var string
      */
-    protected $dataRoot;
+    private $dataRoot;
 
     /**
      * @param Operation $operation
@@ -44,31 +52,33 @@ class ListResponse extends BaseResponse
         parent::__construct($response);
 
         $this->dataRoot = $dataRoot;
+
+        foreach ($this->getRawResources() as $resourceData) {
+            $this->resources[] = new Resource($resourceData);
+        }
     }
 
     /**
-     * @return Resource[]
+     * @return \Jumbo\Client\Response\Resource[]
      */
     public function getResources()
     {
-        $resources = array();
-
-        foreach ($this->getRawResources() as $resource) {
-            $resources[] = new Resource($resource);
-        }
-
-        return $resources;
+        return $this->resources;
     }
 
     /**
+     * Count resources on current page
+     *
      * @return integer
      */
     public function getResourceCount()
     {
-        return $this->count();
+        return count($this->getResources());
     }
 
     /**
+     * Count resources on all pages
+     *
      * @return integer|null
      */
     public function getTotalResourceCount()
@@ -77,6 +87,8 @@ class ListResponse extends BaseResponse
     }
 
     /**
+     * Count number of pages
+     *
      * @return integer|null
      */
     public function getPageCount()
@@ -85,38 +97,57 @@ class ListResponse extends BaseResponse
     }
 
     /**
-     * @return array
+     * Get page size
+     *
+     * @return integer|null
      */
-    protected function getRawResources()
+    public function getPageSize()
     {
-        $data = $this->getData();
+        return isset($this->getData()['page_size']) ? (integer) $this->getData()['page_size'] : null;
+    }
 
-        if (!isset($data[$this->dataRoot])) {
-            throw new Exception\RuntimeException(
-                sprintf(
-                    'Data root "%s" does not exist',
-                    $this->dataRoot
-                )
-            );
-        }
-
-        if (!is_array($data[$this->dataRoot])) {
-            throw new Exception\RuntimeException(
-                sprintf(
-                    'Data root "%s" is not an array',
-                    $this->dataRoot
-                )
-            );
-        }
-
-        return $data[$this->dataRoot];
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->getResources());
     }
 
     /**
      * @return array
      */
-    protected function getIterationData()
+    private function getRawResources()
     {
-        return $this->getResources();
+        $data = $this->getData();
+
+        if (!isset($data[$this->dataRoot])) {
+            throw new Exception\RuntimeException(
+                sprintf('Data root "%s" does not exist', $this->dataRoot)
+            );
+        }
+
+        if (!is_array($data[$this->dataRoot])) {
+            throw new Exception\RuntimeException(
+                sprintf('Data root "%s" is not an array', $this->dataRoot)
+            );
+        }
+
+        $resources = $data[$this->dataRoot];
+
+        // Make sure the data for all resources are arrays
+        $resourceIndex = 0;
+
+        foreach ($resources as $resourceData) {
+            if (!is_array($resourceData)) {
+                throw new Exception\RuntimeException(
+                    sprintf('Resource #%d is not an array', $resourceIndex)
+                );
+            }
+
+            $resourceIndex++;
+        }
+
+        return $resources;
     }
 }

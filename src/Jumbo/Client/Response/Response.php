@@ -4,9 +4,8 @@ namespace Jumbo\Client\Response;
 
 use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
-use GuzzleHttp\Command\ResultInterface;
 
-interface Response extends ResultInterface
+interface Response
 {
     /**
      * @param Operation $operation
@@ -14,4 +13,14 @@ interface Response extends ResultInterface
      * @return Response
      */
     public static function fromOperation(Operation $operation, HttpResponse $response);
+
+    /**
+     * @return HttpResponse
+     */
+    public function getHttpResponse();
+
+    /**
+     * @return array
+     */
+    public function toArray();
 }
