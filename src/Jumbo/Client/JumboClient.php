@@ -82,7 +82,8 @@ abstract class JumboClient extends ServiceClient
         }
 
         $description = new ServiceDescription(require $serviceDescriptionFile);
-        $client = new static($httpClient, $description);
+        $deserializer = new Deserializer($description);
+        $client = new static($httpClient, $description, null, $deserializer);
 
         return $client;
     }
@@ -192,21 +193,21 @@ abstract class JumboClient extends ServiceClient
         $params['filter'] = $filters;
     }
 
-    /**
-     * @param string $method
-     * @param array $args
-     * @return mixed
-     */
-    public function __call($method, array $args)
-    {
-        // It seems we can't intercept Guzzle's request exceptions through the event system...
-        // e.g. when the endpoint is unreachable or the request times out.
-        try {
-            return parent::__call($method, $args);
-        } catch (\Exception $e) {
-            throw Exception\OperationException::wrapException($e);
-        }
-    }
+//    /**
+//     * @param string $method
+//     * @param array $args
+//     * @return mixed
+//     */
+//    public function __call($method, array $args)
+//    {
+//        // It seems we can't intercept Guzzle's request exceptions through the event system...
+//        // e.g. when the endpoint is unreachable or the request times out.
+//        try {
+//            return parent::__call($method, $args);
+//        } catch (\Exception $e) {
+//            throw Exception\OperationException::wrapException($e);
+//        }
+//    }
 
     /**
      * @param string $option

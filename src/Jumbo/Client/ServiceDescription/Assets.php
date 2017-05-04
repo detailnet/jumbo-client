@@ -29,7 +29,7 @@ return array(
                     '$ref' => 'SortParam',
                 ),
             ),
-            'responseClass' => Response\ListResponse::CLASS,
+            'responseModel' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'assets',
         ),
         'fetchAsset' => array(

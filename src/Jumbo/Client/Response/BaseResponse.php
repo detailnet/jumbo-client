@@ -2,38 +2,34 @@
 
 namespace Jumbo\Client\Response;
 
-use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
-use GuzzleHttp\Exception as GuzzleHttpException;
-
+use Guzzle\Common\Exception as GuzzleException;
+use Guzzle\Http\Message\Response as HttpResponse;
 use Jumbo\Client\Exception;
 
 abstract class BaseResponse implements
-    ResponseInterface,
-    \ArrayAccess,
-    \Countable,
-    \IteratorAggregate
+    Response
 {
     use HasDataTrait;
 
     /**
-     * @var HttpResponseInterface
+     * @var HttpResponse
      */
-    protected $httpResponse;
+    protected $response;
 
     /**
-     * @param HttpResponseInterface $response
+     * @param HttpResponse $response
      */
-    public function __construct(HttpResponseInterface $response)
+    public function __construct(HttpResponse $response)
     {
-        $this->httpResponse = $response;
+        $this->response = $response;
     }
 
     /**
-     * @return HttpResponseInterface
+     * @return HttpResponse
      */
     public function getHttpResponse()
     {
-        return $this->httpResponse;
+        return $this->response;
     }
 
     /**
@@ -51,9 +47,9 @@ abstract class BaseResponse implements
     {
         try {
             $data = $this->getHttpResponse()->json() ?: array();
-        } catch (GuzzleHttpException\ParseException $e) {
+        } catch (GuzzleException\RuntimeException $e) {
             throw new Exception\RuntimeException(
-                sprintf('Parse exception requesting \'%s\'', $e->getResponse()->getEffectiveUrl()),
+                sprintf('Failed decode data from HTTP response: %s', $e->getMessage()),
                 $e->getCode(),
                 $e
             );
