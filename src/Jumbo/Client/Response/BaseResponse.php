@@ -4,6 +4,7 @@ namespace Jumbo\Client\Response;
 
 use Guzzle\Common\Exception as GuzzleException;
 use Guzzle\Http\Message\Response as HttpResponse;
+
 use Jumbo\Client\Exception;
 
 abstract class BaseResponse implements

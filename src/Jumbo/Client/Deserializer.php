@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescription;
+use GuzzleHttp\Exception\RequestException;
 
 use Jumbo\Client\Response\Response;
 
@@ -35,6 +36,16 @@ class Deserializer
      */
     public function __invoke(PsrResponse $response, PsrRequest $request, CommandInterface $command)
     {
+        if ($response->getStatusCode() >= 400) {
+            throw RequestException::create($request, $response);
+        }
+
+        $httpResponse = new HttpResponse(
+            $response->getStatusCode(),
+            $response->getHeaders(),
+            $response->getBody()
+        );
+
         $name = $command->getName();
         $operation = $this->description->getOperation($name);
 
@@ -57,12 +68,6 @@ class Deserializer
         }
 
         /** @todo We could check if the response class implements ResponseInterface */
-
-        $httpResponse = new HttpResponse(
-            $response->getStatusCode(),
-            $response->getHeaders(),
-            $response->getBody()
-        );
 
         /** @var Response $responseClass */
 
