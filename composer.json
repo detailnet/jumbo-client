@@ -12,12 +12,16 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Ivan Wolf",
-            "email": "ivan.wolf@detailnet.ch"
-        },
-        {
             "name": "Curzio Della Santa",
             "email": "curzio.della.santa@detailnet.ch"
+        },
+        {
+            "name": "Christian Schmid",
+            "email": "christian.schmid@detailnet.ch"
+        },
+        {
+            "name": "Ivan Wolf",
+            "email": "ivan.wolf@detailnet.ch"
         },
         {
             "name": "Kevin Jüni",
@@ -25,13 +29,13 @@
         }
     ],
     "require": {
-        "php": "^5.5 || ^7.0",
-        "guzzlehttp/guzzle": "^5.3",
-        "guzzlehttp/guzzle-services": "^0.6.0",
-        "mtdowling/jmespath.php": "^2.2"
+        "php": "^7.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle-services": "^1.1",
+        "mtdowling/jmespath.php": "^2.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.6",
+        "phpunit/phpunit": "^6.1",
         "squizlabs/php_codesniffer" : "^2.2",
         "phpmd/phpmd": "^2.2",
         "satooshi/php-coveralls": "^1.0"

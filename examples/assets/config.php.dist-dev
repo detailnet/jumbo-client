@@ -1,5 +1,5 @@
 <?php
 
 return array(
-    'base_url' => 'http://jumbo-assets.public.web02.detailnet.me/api/'
+    'base_uri' => 'http://jumbo-assets.public.web02.detailnet.me/api/'
 );
