@@ -12,6 +12,6 @@ if (!$assetId) {
 
 $client = AssetsClient::factory($config);
 
-$resource = $client->fetchAsset($assetId);
+$asset = $client->fetchAsset($assetId);
 
-var_dump($resource);
+var_dump($asset);

@@ -40,6 +40,9 @@
         "phpmd/phpmd": "^2.2",
         "satooshi/php-coveralls": "^1.0"
     },
+    "suggest": {
+        "aws/aws-sdk-php": "For uploading assets"
+    },
     "autoload": {
         "psr-0": {
             "Jumbo\\Client\\": "src/"
