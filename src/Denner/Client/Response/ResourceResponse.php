@@ -6,8 +6,6 @@ use GuzzleHttp\Command\Event\ProcessEvent;
 use GuzzleHttp\Command\Guzzle\Operation;
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
-use Denner\Client\Exception;
-
 class ResourceResponse extends BaseResponse
 {
     /**
@@ -29,7 +27,7 @@ class ResourceResponse extends BaseResponse
     }
 
     /**
-     * @return Resource
+     * @return \Denner\Client\Response\Resource
      */
     public function getResource()
     {
