@@ -90,7 +90,7 @@ class AssetsClient extends JumboClient
             throw new Exception\RuntimeException('No asset transmitter set; cannot upload an asset');
         }
 
-        $tentativeAssetData = array('name' => $upload->getFilename());
+        $tentativeAssetData = array('name' => $upload->getName());
 
         if ($upload->getMimetype() !== null) {
             $tentativeAssetData['mime_type'] = $upload->getMimetype();
@@ -106,7 +106,7 @@ class AssetsClient extends JumboClient
         $assetData = array(
             'id' => $upload->getId(),
             'purpose' => $upload->getPurpose(),
-            'name' => $upload->getFilename(),
+            'name' => $upload->getName(),
             'url' => $upload->getUrl(),
             'size' => $upload->getSize(),
             'mime_type' => $upload->getMimetype(),

@@ -68,7 +68,7 @@ return array(
         ),
         'createAsset' => array(
             'httpMethod' => 'POST',
-            'uri' => 'assets/new',
+            'uri' => 'assets',
             'summary' => 'Create an asset',
             'parameters' => array(
                 'id' => array(
@@ -134,7 +134,7 @@ return array(
                 'tags' => array(
                     'description' => 'The tags for the asset (the IDs)',
                     'location' => 'json',
-                    'type' => 'string',
+                    'type' => 'array',
                     'required' => false,
                 ),
                 'articles' => array(

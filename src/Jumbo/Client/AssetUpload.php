@@ -7,22 +7,32 @@ interface AssetUpload
     /**
      * @return string
      */
-    public function getFilename();
+    public function getName();
 
     /**
-     * @param string $filename
+     * @return string
      */
-    public function setFilename($filename);
+    public function getPurpose();
+
+    /**
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * @return string
+     */
+    public function getContents();
 
     /**
      * @return string|null
      */
-    public function getMimetype();
+    public function getMimeType();
 
     /**
-     * @param string|null $mimetype
+     * @param string|null $mimeType
      */
-    public function setMimetype($mimetype);
+    public function setMimeType($mimeType);
 
     /**
      * @return string|null
@@ -37,10 +47,55 @@ interface AssetUpload
     /**
      * @return string|null
      */
+    public function getUploadUrl();
+
+    /**
+     * @param string|null $uploadUrl
+     */
+    public function setUploadUrl($uploadUrl);
+
+    /**
+     * @return string|null
+     */
     public function getUrl();
 
     /**
      * @param string|null $url
      */
     public function setUrl($url);
+
+    /**
+     * @return integer|null
+     */
+    public function getSize();
+
+    /**
+     * @param integer|null $size
+     */
+    public function setSize($size);
+
+    /**
+     * @return string|null
+     */
+    public function getDescription();
+
+    /**
+     * @return array
+     */
+    public function getLanguages();
+
+    /**
+     * @return array
+     */
+    public function getTags();
+
+    /**
+     * @return array
+     */
+    public function getArticles();
+
+    /**
+     * @return boolean
+     */
+    public function isArchived();
 }

@@ -43,6 +43,12 @@ class InternalAssetTransmitter implements
     public function upload(AssetUpload $upload)
     {
         /** @todo Upload to S3 and populate $upload */
+
+//        $contents = $upload->getContents();
+
+        $url = strtok($upload->getUploadUrl(),'?');
+
+        $upload->setUrl($url);
     }
 
     /**
