@@ -142,6 +142,16 @@ return array(
                     'location' => 'json',
                     'type' => 'array',
                     'required' => false,
+                    'items' => array(
+                        'type' => 'object',
+                        'properties' => array(
+                            'code' => array(
+                                'description' => 'The referenced articles for the asset',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                        ),
+                    ),
                 ),
                 'archived' => array(
                     'description' => 'Whether or not to create the asset directly as archived',

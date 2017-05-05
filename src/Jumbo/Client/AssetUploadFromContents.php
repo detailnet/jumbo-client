@@ -76,6 +76,16 @@ class AssetUploadFromContents implements
     protected $archived = false;
 
     /**
+     * @var string
+     */
+    protected $acl = 'private';
+
+    /**
+     * @var string
+     */
+    protected $encryption = 'AES256';
+
+    /**
      * @param string $name
      * @param string $purpose
      * @param string $type
@@ -280,6 +290,38 @@ class AssetUploadFromContents implements
     public function setArchived($archived)
     {
         $this->archived = $archived;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAcl()
+    {
+        return $this->acl;
+    }
+
+    /**
+     * @param string $acl
+     */
+    public function setAcl($acl)
+    {
+        $this->acl = $acl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncryption()
+    {
+        return $this->encryption;
+    }
+
+    /**
+     * @param string $encryption
+     */
+    public function setEncryption($encryption)
+    {
+        $this->encryption = $encryption;
     }
 }
 

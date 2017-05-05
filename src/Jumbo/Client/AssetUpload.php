@@ -98,4 +98,24 @@ interface AssetUpload
      * @return boolean
      */
     public function isArchived();
+
+    /**
+     * @return string
+     */
+    public function getAcl();
+
+    /**
+     * @param string $acl
+     */
+    public function setAcl($acl);
+
+    /**
+     * @return string
+     */
+    public function getEncryption();
+
+    /**
+     * @param string $encryption
+     */
+    public function setEncryption($encryption);
 }

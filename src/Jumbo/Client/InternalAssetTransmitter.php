@@ -2,39 +2,44 @@
 
 namespace Jumbo\Client;
 
-//use Aws\S3\S3Client;
+use SimpleXMLElement;
+
+use Psr\Http\Message\ResponseInterface as PsrResponse;
+
+use GuzzleHttp\ClientInterface as HttpClient;
 
 class InternalAssetTransmitter implements
     AssetTransmitter
 {
-//    /**
-//     * @var S3Client
-//     */
-//    protected $client;
-//
-//    /**
-//     * @param S3Client $client
-//     */
-//    public function __construct(S3Client $client)
-//    {
-//        $this->setClient($client);
-//    }
-//
-//    /**
-//     * @return S3Client
-//     */
-//    public function getClient()
-//    {
-//        return $this->client;
-//    }
-//
-//    /**
-//     * @param S3Client $client
-//     */
-//    public function setClient($client)
-//    {
-//        $this->client = $client;
-//    }
+    /**
+     * @var HttpClient
+     */
+    protected $client;
+
+    /**
+     * InternalAssetTransmitter constructor.
+     * @param HttpClient $client
+     */
+    public function __construct(HttpClient $client)
+    {
+        $this->setClient($client);
+    }
+
+    /**
+     * @return HttpClient
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param HttpClient $client
+     */
+    public function setClient(HttpClient $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * @param AssetUpload $upload
@@ -42,13 +47,27 @@ class InternalAssetTransmitter implements
      */
     public function upload(AssetUpload $upload)
     {
-        /** @todo Upload to S3 and populate $upload */
+        $client = $this->getClient();
+        $response = $client->request(
+            'PUT',
+            $upload->getUploadUrl(),
+            array(
+                'body' => $upload->getContents(),
+                'headers' => array(
+                    'Content-Type' => $upload->getMimeType(),
+                    'x-amz-acl' => 'private',
+                    'x-amz-server-side-encryption' => 'AES256',
+                ),
+            )
+        );
 
-//        $contents = $upload->getContents();
+        if ($response->getStatusCode() >= 400) {
+            throw new Exception\RuntimeException(
+                sprintf('Failed to upload file: %s', $this->extractErrorMessage($response))
+            );
+        }
 
-        $url = strtok($upload->getUploadUrl(),'?');
-
-        $upload->setUrl($url);
+        $upload->setUrl(strtok($upload->getUploadUrl(),'?'));
     }
 
     /**
@@ -59,5 +78,27 @@ class InternalAssetTransmitter implements
     {
         /** @todo Implement downloading */
         throw new Exception\RuntimeException('Downloading is not yet implemented');
+    }
+
+    /**
+     * @param PsrResponse $response
+     * @return string
+     */
+    private function extractErrorMessage(PsrResponse $response)
+    {
+        $result = new SimpleXMLElement($response->getBody());
+
+        $code = (string) $result->xpath('//Code')[0];
+        $message = (string) $result->xpath('//Message')[0];
+
+        if (!$message) {
+            $message = 'Unknown error';
+        }
+
+        if ($code) {
+            $message .= sprintf(' (%s)', $code);
+        }
+
+        return $message;
     }
 }

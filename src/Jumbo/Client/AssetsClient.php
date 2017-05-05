@@ -23,6 +23,11 @@ class AssetsClient extends JumboClient
      */
     public function getAssetTransmitter()
     {
+        if ($this->assetTransmitter === null) {
+            // Reuse internal HTTP client
+            $this->assetTransmitter = new InternalAssetTransmitter($this->getHttpClient());
+        }
+
         return $this->assetTransmitter;
     }
 
@@ -100,6 +105,9 @@ class AssetsClient extends JumboClient
 
         $upload->setId($tentativeAsset->get('id'));
         $upload->setUploadUrl($tentativeAsset->get('upload_url'));
+        $upload->setMimeType($tentativeAsset->get('mime_type'));
+        $upload->setAcl($tentativeAsset->get('acl'));
+        $upload->setEncryption($tentativeAsset->get('encryption'));
 
         $transmitter->upload($upload);
 
