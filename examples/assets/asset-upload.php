@@ -12,12 +12,11 @@ $upload = new AssetUploadFromContents(
     file_get_contents('jumbo.png')
 );
 $upload->setMimeType('image/png');
-$upload->setLanguages(array('de'));
+//$upload->setLanguages(array('de'));
 //$upload->setTags(array('94656855-b318-4fb8-aa43-569b78ba22d1'));
 $upload->setArticles(array(array('code' => '1197364')));
 
 $client = AssetsClient::factory($config);
-$client->setAssetTransmitter();
 
 $asset = $client->uploadAsset($upload);
 
