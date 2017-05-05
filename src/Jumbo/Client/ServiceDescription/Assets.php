@@ -66,6 +66,150 @@ return array(
             ),
             'responseClass' => Response\ResourceResponse::CLASS,
         ),
+        'createAsset' => array(
+            'httpMethod' => 'POST',
+            'uri' => 'assets',
+            'summary' => 'Create an asset',
+            'parameters' => array(
+                'id' => array(
+                    'description' => 'The ID of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'purpose' => array(
+                    'description' => 'The purpose of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                    'enum' => array(
+                        'original',
+                        'web',
+                    ),
+                ),
+                'name' => array(
+                    'description' => 'The name of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                    'minLength' => 1,
+                ),
+                'url' => array(
+                    'description' => 'The URL of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'size' => array(
+                    'description' => 'The size of the asset',
+                    'location' => 'json',
+                    'type' => 'integer',
+                    'required' => true,
+                    'minimum' => 1,
+                ),
+                'mime_type' => array(
+                    'description' => 'The mime-type of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'type' => array(
+                    'description' => 'The type of the asset (the ID)',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'description' => array(
+                    'description' => 'The description for the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => false,
+                ),
+                'languages' => array(
+                    'description' => 'The languages for the asset (the IDs)',
+                    'location' => 'json',
+                    'type' => 'array',
+                    'required' => false,
+                ),
+                'tags' => array(
+                    'description' => 'The tags for the asset (the IDs)',
+                    'location' => 'json',
+                    'type' => 'array',
+                    'required' => false,
+                ),
+                'articles' => array(
+                    'description' => 'The referenced articles for the asset',
+                    'location' => 'json',
+                    'type' => 'array',
+                    'required' => false,
+                    'items' => array(
+                        'type' => 'object',
+                        'properties' => array(
+                            'code' => array(
+                                'description' => 'The referenced articles for the asset',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                        ),
+                    ),
+                ),
+                'archived' => array(
+                    'description' => 'Whether or not to create the asset directly as archived',
+                    'location' => 'json',
+                    'type' => 'boolean',
+                    'required' => false,
+                ),
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
+        'deleteAsset' => array(
+            'httpMethod' => 'DELETE',
+            'uri' => 'assets/{asset_id}',
+            'summary' => 'Delete an asset',
+            'parameters' => array(
+                'asset_id' => array(
+                    'description' => 'The ID of the asset to delete',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
+        'createTentativeAsset' => array(
+            'httpMethod' => 'POST',
+            'uri' => 'assets/new',
+            'summary' => 'Create a tentative asset',
+            'parameters' => array(
+                'name' => array(
+                    'description' => 'The name of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+                'mime_type' => array(
+                    'description' => 'The mime-type of the asset',
+                    'location' => 'json',
+                    'type' => 'string',
+                    'required' => false,
+                ),
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
+        'deleteTentativeAsset' => array(
+            'httpMethod' => 'DELETE',
+            'uri' => 'assets/new/{tentative_asset_id}',
+            'summary' => 'Delete a tentative asset',
+            'parameters' => array(
+                'tentative_asset_id' => array(
+                    'description' => 'The ID of the tentative asset to delete',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ),
+            ),
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ),
         'listAssetCollections' => array(
             'httpMethod' => 'GET',
             'uri' => 'asset-collections',
