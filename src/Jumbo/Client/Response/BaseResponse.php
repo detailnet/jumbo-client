@@ -2,8 +2,7 @@
 
 namespace Jumbo\Client\Response;
 
-use Guzzle\Common\Exception as GuzzleException;
-use Guzzle\Http\Message\Response as HttpResponse;
+use GuzzleHttp\Psr7\Response as PsrResponse;
 
 use Jumbo\Client\Exception;
 
@@ -11,7 +10,7 @@ abstract class BaseResponse implements
     Response
 {
     /**
-     * @var HttpResponse
+     * @var PsrResponse
      */
     protected $response;
 
@@ -21,16 +20,16 @@ abstract class BaseResponse implements
     protected $data;
 
     /**
-     * @param HttpResponse $response
+     * @param PsrResponse $response
      */
-    public function __construct(HttpResponse $response)
+    public function __construct(PsrResponse $response)
     {
         $this->response = $response;
         $this->data = $this->extractData();
     }
 
     /**
-     * @return HttpResponse
+     * @return PsrResponse
      */
     public function getHttpResponse()
     {
@@ -59,15 +58,42 @@ abstract class BaseResponse implements
     private function extractData()
     {
         try {
-            $data = $this->getHttpResponse()->json();
+            $data = $this->decodeJson($this->getHttpResponse()->getBody());
 
             return is_array($data) ? $data : array();
-        } catch (GuzzleException\RuntimeException $e) {
+        } catch (\Exception $e) {
             throw new Exception\RuntimeException(
                 sprintf('Failed extract data from HTTP response: %s', $e->getMessage()),
                 $e->getCode(),
                 $e
             );
         }
+    }
+
+    /**
+     * @param string $value
+     * @return array
+     */
+    private function decodeJson($value)
+    {
+        $data = json_decode($value, true);
+
+        if ($data === false) {
+            $error = json_last_error();
+
+            if ($error !== JSON_ERROR_NONE) {
+                $message = json_last_error_msg();
+
+                if ($message === false) {
+                    $message = 'Unknown error';
+                }
+
+                throw new Exception\RuntimeException(
+                    sprintf('Unable to decode JSON: %s', $message)
+                );
+            }
+        }
+
+        return $data;
     }
 }
