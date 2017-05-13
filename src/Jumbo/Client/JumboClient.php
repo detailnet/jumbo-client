@@ -11,11 +11,10 @@ use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 
 use Jumbo\Client\Exception;
-use Jumbo\Client\Subscriber;
 
 abstract class JumboClient extends ServiceClient
 {
-    const CLIENT_VERSION = '0.1.0';
+    const CLIENT_VERSION = '0.1.1';
 
     const OPTION_APP_ID  = 'app_id';
     const OPTION_APP_KEY = 'app_key';
@@ -87,24 +86,6 @@ abstract class JumboClient extends ServiceClient
 
         return $client;
     }
-
-//    /**
-//     * @param HttpClientInterface $client
-//     * @param ServiceDescriptionInterface $description
-//     */
-//    public function __construct(
-//        HttpClientInterface $client,
-//        ServiceDescriptionInterface $description
-//    ) {
-//        $config = array(
-//            'process' => false, // Don't use Guzzle Service's processing (we're rolling our own...)
-//        );
-//
-//        parent::__construct($client, $description, $config);
-//
-//        $emitter = $this->getEmitter();
-//        $emitter->attach(new Subscriber\Command\ProcessResponse($description));
-//    }
 
     /**
      * @return string|null

@@ -2,20 +2,20 @@
 
 namespace Jumbo\Client\Response;
 
-use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
+use GuzzleHttp\Psr7\Response as PsrResponse;
 
 interface Response
 {
     /**
      * @param Operation $operation
-     * @param HttpResponse $response
+     * @param PsrResponse $response
      * @return Response
      */
-    public static function fromOperation(Operation $operation, HttpResponse $response);
+    public static function fromOperation(Operation $operation, PsrResponse $response);
 
     /**
-     * @return HttpResponse
+     * @return PsrResponse
      */
     public function getHttpResponse();
 

@@ -2,13 +2,11 @@
 
 namespace Jumbo\Client;
 
-use Psr\Http\Message\RequestInterface as PsrRequest;
-use Psr\Http\Message\ResponseInterface as PsrResponse;
-
-use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescription;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request as PsrRequest;
+use GuzzleHttp\Psr7\Response as PsrResponse;
 
 use Jumbo\Client\Response\Response;
 
@@ -43,12 +41,6 @@ class Deserializer
             throw RequestException::create($request, $response);
         }
 
-        $httpResponse = new HttpResponse(
-            $response->getStatusCode(),
-            $response->getHeaders(),
-            $response->getBody()
-        );
-
         $name = $command->getName();
         $operation = $this->description->getOperation($name);
 
@@ -74,6 +66,6 @@ class Deserializer
 
         /** @var Response $responseClass */
 
-        return $responseClass::fromOperation($operation, $httpResponse);
+        return $responseClass::fromOperation($operation, $response);
     }
 }

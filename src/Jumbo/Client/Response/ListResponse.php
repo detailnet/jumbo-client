@@ -4,8 +4,8 @@ namespace Jumbo\Client\Response;
 
 use ArrayIterator;
 
-use Guzzle\Http\Message\Response as HttpResponse;
 use GuzzleHttp\Command\Guzzle\Operation;
+use GuzzleHttp\Psr7\Response as PsrResponse;
 
 use Jumbo\Client\Exception;
 
@@ -24,10 +24,10 @@ class ListResponse extends BaseResponse implements
 
     /**
      * @param Operation $operation
-     * @param HttpResponse $response
+     * @param PsrResponse $response
      * @return ListResponse
      */
-    public static function fromOperation(Operation $operation, HttpResponse $response)
+    public static function fromOperation(Operation $operation, PsrResponse $response)
     {
         $operationConfig = $operation->toArray();
 
@@ -44,10 +44,10 @@ class ListResponse extends BaseResponse implements
     }
 
     /**
-     * @param HttpResponse $response
+     * @param PsrResponse $response
      * @param string $dataRoot
      */
-    public function __construct(HttpResponse $response, $dataRoot)
+    public function __construct(PsrResponse $response, $dataRoot)
     {
         parent::__construct($response);
 
