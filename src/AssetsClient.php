@@ -5,23 +5,18 @@ namespace Jumbo\Client;
 use Jumbo\Client\Response;
 
 /**
- * Jumbo Assets Service client.
+ * Jumbo Assets Service client
  *
- * @method Response\ListResponse listAssets(array $params = array())
- * @method Response\ListResponse listAssetCollections(array $params = array())
- * @method Response\ListResponse listPurposes(array $params = array())
+ * @method Response\ListResponse listAssets(array $params = [])
+ * @method Response\ListResponse listAssetCollections(array $params = [])
+ * @method Response\ListResponse listPurposes(array $params = [])
  */
 class AssetsClient extends JumboClient
 {
-    /**
-     * @var AssetTransmitter|null
-     */
-    protected $assetTransmitter;
+    /** @var AssetTransmitter|null */
+    private $assetTransmitter;
 
-    /**
-     * @return AssetTransmitter|null
-     */
-    public function getAssetTransmitter()
+    public function getAssetTransmitter(): ?AssetTransmitter
     {
         if ($this->assetTransmitter === null) {
             // Reuse internal HTTP client
@@ -31,71 +26,52 @@ class AssetsClient extends JumboClient
         return $this->assetTransmitter;
     }
 
-    /**
-     * @param AssetTransmitter|null $assetTransmitter
-     */
-    public function setAssetTransmitter(AssetTransmitter $assetTransmitter = null)
+    public function setAssetTransmitter(?AssetTransmitter $assetTransmitter = null): void
     {
         $this->assetTransmitter = $assetTransmitter;
     }
 
-    /**
-     * @param string $id
-     * @return Response\Resource|null
-     */
-    public function fetchAsset($id)
+    public function fetchAsset(string $id): ?Response\Resource
     {
         /** @var Response\ResourceResponse|null $response */
-        $response = $this->__call(__FUNCTION__, array(array('asset_id' => $id)));
+        $response = $this->__call(__FUNCTION__, [['asset_id' => $id]]);
 
         return $response ? $response->getResource() : null;
     }
 
-    /**
-     * @param string $id
-     * @param integer|null $expireAfter
-     * @return string|null
-     */
-    public function downloadAsset($id, $expireAfter = null)
+    public function downloadAsset(string $id, ?int $expireAfter = null): ?string
     {
-        $params = array('asset_id' => $id);
+        $params = ['asset_id' => $id];
 
         if ($expireAfter !== null) {
             $params['expire_after'] = $expireAfter;
         }
 
         /** @var Response\ResourceResponse|null $response */
-        $response = $this->__call(__FUNCTION__, array($params));
+        $response = $this->__call(__FUNCTION__, [$params]);
 
         return $response ? $response->getResource()->get('url') : null;
     }
 
-    /**
-     * @param array $params
-     * @return Response\Resource
-     */
-    public function createAsset(array $params)
+    public function createAsset(array $params): Response\Resource
     {
         /** @var Response\ResourceResponse $response */
-        $response = $this->__call(__FUNCTION__, array($params));
+        $response = $this->__call(__FUNCTION__, [$params]);
 
         return $response->getResource();
     }
 
-    /**
-     * @param AssetUpload $upload
-     * @return Response\Resource
-     * @todo Handle errors during the various upload steps (we might need to cleanup)
-     */
-    public function uploadAsset(AssetUpload $upload)
+    public function uploadAsset(AssetUpload $upload): Response\Resource
     {
+        /** @todo Handle errors during the various upload steps (we might need to cleanup) */
+
         $transmitter = $this->getAssetTransmitter();
 
         if ($transmitter === null) {
             throw new Exception\RuntimeException('No asset transmitter set; cannot upload an asset');
         }
 
-        $tentativeAssetData = array('name' => $upload->getName());
+        $tentativeAssetData = ['name' => $upload->getName()];
 
         if ($upload->getMimetype() !== null) {
             $tentativeAssetData['mime_type'] = $upload->getMimetype();
@@ -111,7 +87,7 @@ class AssetsClient extends JumboClient
 
         $transmitter->upload($upload);
 
-        $assetData = array(
+        $assetData = [
             'id' => $upload->getId(),
             'purpose' => $upload->getPurpose(),
             'name' => $upload->getName(),
@@ -124,53 +100,41 @@ class AssetsClient extends JumboClient
             'tags' => $upload->getTags(),
             'articles' => $upload->getArticles(),
             'archived' => $upload->isArchived(),
-        );
+        ];
 
         $asset = $this->createAsset($assetData);
 
         return $asset;
     }
 
-    /**
-     * @param string $id
-     * @return void
-     */
-    public function deleteAsset($id)
+    public function deleteAsset(string $id): void
     {
-        $this->__call(__FUNCTION__, array(array('asset_id' => $id)));
+        $this->__call(__FUNCTION__, [['asset_id' => $id]]);
     }
 
-    /**
-     * @param array $params
-     * @return Response\Resource
-     */
-    public function createTentativeAsset(array $params)
+    public function createTentativeAsset(array $params): Response\Resource
     {
         /** @var Response\ResourceResponse $response */
-        $response = $this->__call(__FUNCTION__, array($params));
+        $response = $this->__call(__FUNCTION__, [$params]);
 
         return $response->getResource();
     }
 
-    /**
-     * @param string $id
-     * @return void
-     */
-    public function deleteTentativeAsset($id)
+    public function deleteTentativeAsset(string $id): void
     {
-        $this->__call(__FUNCTION__, array(array('tentative_asset_id' => $id)));
+        $this->__call(__FUNCTION__, [['tentative_asset_id' => $id]]);
     }
 
-    /**
-     * @param string $urlToken
-     * @param array $params
-     * @return Response\ListResponse
-     */
-    public function listAssetCollectionsByUrlToken($urlToken, array $params = array())
+    public function listAssetCollectionsByUrlToken(string $urlToken, array $params = []): Response\ListResponse
     {
-        $filters = array(
-            'url_token' => array('property' => 'links.url_token', 'value' => $urlToken, 'operator' => '=', 'type' => 'string'),
-        );
+        $filters = [
+            'url_token' => [
+                'property' => 'links.url_token',
+                'value' => $urlToken,
+                'operator' => '=',
+                'type' => 'string'
+            ],
+        ];
 
         // We may need to replace already existing filters
         $this->addOrReplaceFilters($filters, $params);

@@ -2,66 +2,49 @@
 
 namespace Jumbo\Client\Response;
 
+use ArrayAccess;
 use JmesPath\Env as JmesPath;
-
 use Jumbo\Client\Exception;
 
 class Resource implements
-    \ArrayAccess
+    ArrayAccess
 {
-    /**
-     * @var array
-     */
-    protected $data = array();
+    /** @var array */
+    protected $data = [];
 
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
         $this->data = $data;
     }
 
-    /**
-     * @param string $key
-     * @return boolean
-     */
-    public function has($key)
+    public function has(string $key): bool
     {
         return $this->get($key) !== null;
     }
 
     /**
-     * @param string $key
      * @param mixed $default
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         return isset($this->data[$key]) ? $this->data[$key] : $default;
     }
 
     /**
-     * @param string $expression
      * @return mixed|null
      */
-    public function search($expression)
+    public function search(string $expression)
     {
         return JmesPath::search($expression, $this->data);
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $jsonData = json_encode($this->data, JSON_PRETTY_PRINT);
         return <<<EOT

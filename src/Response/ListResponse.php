@@ -3,31 +3,25 @@
 namespace Jumbo\Client\Response;
 
 use ArrayIterator;
-
 use GuzzleHttp\Command\Guzzle\Operation;
 use GuzzleHttp\Psr7\Response as PsrResponse;
-
+use IteratorAggregate;
 use Jumbo\Client\Exception;
+use Jumbo\Client\Response\Resource as ClientResource;
 
 class ListResponse extends BaseResponse implements
-    \IteratorAggregate
+    IteratorAggregate
 {
-    /**
-     * @var \Jumbo\Client\Response\Resource[]
-     */
-    protected $resources = array();
+    /** @var ClientResource[] */
+    protected $resources = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $dataRoot;
 
     /**
-     * @param Operation $operation
-     * @param PsrResponse $response
      * @return ListResponse
      */
-    public static function fromOperation(Operation $operation, PsrResponse $response)
+    public static function fromOperation(Operation $operation, PsrResponse $response): Response
     {
         $operationConfig = $operation->toArray();
 
@@ -43,11 +37,7 @@ class ListResponse extends BaseResponse implements
         return new static($response, $operationConfig['responseDataRoot']);
     }
 
-    /**
-     * @param PsrResponse $response
-     * @param string $dataRoot
-     */
-    public function __construct(PsrResponse $response, $dataRoot)
+    public function __construct(PsrResponse $response, string $dataRoot)
     {
         parent::__construct($response);
 
@@ -59,65 +49,51 @@ class ListResponse extends BaseResponse implements
     }
 
     /**
-     * @return \Jumbo\Client\Response\Resource[]
+     * @return ClientResource[]
      */
-    public function getResources()
+    public function getResources(): array
     {
         return $this->resources;
     }
 
     /**
      * Count resources on current page
-     *
-     * @return integer
      */
-    public function getResourceCount()
+    public function getResourceCount(): int
     {
         return count($this->getResources());
     }
 
     /**
      * Count resources on all pages
-     *
-     * @return integer|null
      */
-    public function getTotalResourceCount()
+    public function getTotalResourceCount(): ?int
     {
         return isset($this->getData()['total_items']) ? (integer) $this->getData()['total_items'] : null;
     }
 
     /**
      * Count number of pages
-     *
-     * @return integer|null
      */
-    public function getPageCount()
+    public function getPageCount(): ?int
     {
         return isset($this->getData()['page_count']) ? (integer) $this->getData()['page_count'] : null;
     }
 
     /**
      * Get page size
-     *
-     * @return integer|null
      */
-    public function getPageSize()
+    public function getPageSize(): ?int
     {
         return isset($this->getData()['page_size']) ? (integer) $this->getData()['page_size'] : null;
     }
 
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->getResources());
     }
 
-    /**
-     * @return array
-     */
-    private function getRawResources()
+    private function getRawResources(): array
     {
         $data = $this->getData();
 

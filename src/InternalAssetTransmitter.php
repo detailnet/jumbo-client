@@ -2,63 +2,45 @@
 
 namespace Jumbo\Client;
 
-use SimpleXMLElement;
-
-use Psr\Http\Message\ResponseInterface as PsrResponse;
-
 use GuzzleHttp\ClientInterface as HttpClient;
+use Psr\Http\Message\ResponseInterface as PsrResponse;
+use SimpleXMLElement;
 
 class InternalAssetTransmitter implements
     AssetTransmitter
 {
-    /**
-     * @var HttpClient
-     */
-    protected $client;
+    /** @var HttpClient */
+    private $client;
 
-    /**
-     * InternalAssetTransmitter constructor.
-     * @param HttpClient $client
-     */
     public function __construct(HttpClient $client)
     {
         $this->setClient($client);
     }
 
-    /**
-     * @return HttpClient
-     */
-    public function getClient()
+    public function getClient(): HttpClient
     {
         return $this->client;
     }
 
-    /**
-     * @param HttpClient $client
-     */
-    public function setClient(HttpClient $client)
+    public function setClient(HttpClient $client): void
     {
         $this->client = $client;
     }
 
-    /**
-     * @param AssetUpload $upload
-     * @return void
-     */
-    public function upload(AssetUpload $upload)
+    public function upload(AssetUpload $upload): void
     {
         $client = $this->getClient();
         $response = $client->request(
             'PUT',
             $upload->getUploadUrl(),
-            array(
+            [
                 'body' => $upload->getContents(),
-                'headers' => array(
+                'headers' => [
                     'Content-Type' => $upload->getMimeType(),
                     'x-amz-acl' => 'private',
                     'x-amz-server-side-encryption' => 'AES256',
-                ),
-            )
+                ],
+            ]
         );
 
         if ($response->getStatusCode() >= 400) {
@@ -67,24 +49,16 @@ class InternalAssetTransmitter implements
             );
         }
 
-        $upload->setUrl(strtok($upload->getUploadUrl(),'?'));
+        $upload->setUrl(strtok($upload->getUploadUrl(), '?'));
     }
 
-    /**
-     * @param string $url
-     * @return array
-     */
-    public function download($url)
+    public function download(string $url): array
     {
         /** @todo Implement downloading */
         throw new Exception\RuntimeException('Downloading is not yet implemented');
     }
 
-    /**
-     * @param PsrResponse $response
-     * @return string
-     */
-    private function extractErrorMessage(PsrResponse $response)
+    private function extractErrorMessage(PsrResponse $response): string
     {
         $result = new SimpleXMLElement($response->getBody());
 
