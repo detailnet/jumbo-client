@@ -66,6 +66,26 @@ return [
             ],
             'responseClass' => Response\ResourceResponse::CLASS,
         ],
+        'downloadPreview' => [
+            'httpMethod' => 'POST',
+            'uri' => 'assets/{asset_id}/preview-downloads',
+            'summary' => 'Download a preview (get the download URL)',
+            'parameters' => [
+                'asset_id' => [
+                    'description' => 'The ID of the asset to download the preview for',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'expire_after' => [
+                    'description' => 'The number of seconds after which the download URL expires',
+                    'location' => 'json',
+                    'type' => 'integer',
+                    'required' => false,
+                ],
+            ],
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ],
         'createAsset' => [
             'httpMethod' => 'POST',
             'uri' => 'assets',

@@ -53,6 +53,20 @@ class AssetsClient extends JumboClient
         return $response ? $response->getResource()->get('url') : null;
     }
 
+    public function downloadPreview(string $id, ?int $expireAfter = null): ?string
+    {
+        $params = ['asset_id' => $id];
+
+        if ($expireAfter !== null) {
+            $params['expire_after'] = $expireAfter;
+        }
+
+        /** @var Response\ResourceResponse|null $response */
+        $response = $this->__call(__FUNCTION__, [$params]);
+
+        return $response ? $response->getResource()->get('url') : null;
+    }
+
     public function createAsset(array $params): Response\Resource
     {
         /** @var Response\ResourceResponse $response */
