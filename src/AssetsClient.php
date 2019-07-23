@@ -39,7 +39,7 @@ class AssetsClient extends JumboClient
         return $response ? $response->getResource() : null;
     }
 
-    public function downloadAsset(string $id, ?int $expireAfter = null): ?string
+    public function downloadAsset(string $id, ?string $imageId = null, ?int $expireAfter = null): ?string
     {
         $params = ['asset_id' => $id];
 
@@ -47,24 +47,22 @@ class AssetsClient extends JumboClient
             $params['expire_after'] = $expireAfter;
         }
 
+        if ($imageId !== null) {
+            $params['image_id'] = $imageId;
+            $function = 'downloadImage';
+        } else {
+            $function = __FUNCTION__;
+        }
+
         /** @var Response\ResourceResponse|null $response */
-        $response = $this->__call(__FUNCTION__, [$params]);
+        $response = $this->__call($function, [$params]);
 
         return $response ? $response->getResource()->get('url') : null;
     }
 
     public function downloadPreview(string $id, ?int $expireAfter = null): ?string
     {
-        $params = ['asset_id' => $id];
-
-        if ($expireAfter !== null) {
-            $params['expire_after'] = $expireAfter;
-        }
-
-        /** @var Response\ResourceResponse|null $response */
-        $response = $this->__call(__FUNCTION__, [$params]);
-
-        return $response ? $response->getResource()->get('url') : null;
+        return $this->downloadAsset($id, 'web', $expireAfter);
     }
 
     public function createAsset(array $params): Response\Resource

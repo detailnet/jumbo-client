@@ -54,7 +54,7 @@ abstract class BaseResponse implements
     {
         $data = json_decode($value, true);
 
-        if ($data === false) {
+        if (!is_array($data)) {
             $error = json_last_error();
 
             if ($error !== JSON_ERROR_NONE) {

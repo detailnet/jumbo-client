@@ -66,13 +66,19 @@ return [
             ],
             'responseClass' => Response\ResourceResponse::CLASS,
         ],
-        'downloadPreview' => [
+        'downloadImage' => [
             'httpMethod' => 'POST',
-            'uri' => 'assets/{asset_id}/preview-downloads',
+            'uri' => 'assets/{asset_id}/images/{image_id}/downloads',
             'summary' => 'Download a preview (get the download URL)',
             'parameters' => [
                 'asset_id' => [
                     'description' => 'The ID of the asset to download the preview for',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'image_id' => [
+                    'description' => 'The ID of the image or purpose (e.g. "web") to download',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
