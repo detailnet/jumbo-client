@@ -11,7 +11,7 @@ if (file_exists($basePath . 'vendor/autoload.php')) {
     );
 }
 
-$config = array();
+$config = [];
 
 $globalConfigFile = __DIR__  .'/config.php';
 

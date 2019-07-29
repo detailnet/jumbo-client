@@ -14,7 +14,7 @@ $upload = new AssetUploadFromContents(
 $upload->setMimeType('image/png');
 //$upload->setLanguages(array('de'));
 //$upload->setTags(array('94656855-b318-4fb8-aa43-569b78ba22d1'));
-$upload->setArticles(array(array('code' => '1197364')));
+$upload->setArticles([['code' => '1197364']]);
 
 $client = AssetsClient::factory($config);
 

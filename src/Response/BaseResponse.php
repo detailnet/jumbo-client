@@ -3,64 +3,44 @@
 namespace Jumbo\Client\Response;
 
 use GuzzleHttp\Psr7\Response as PsrResponse;
-
 use Jumbo\Client\Exception;
 
 abstract class BaseResponse implements
     Response
 {
-    /**
-     * @var PsrResponse
-     */
+    /** @var PsrResponse */
     protected $response;
 
-    /**
-     * @var array
-     */
-    protected $data;
+    /** @var array */
+    protected $data = [];
 
-    /**
-     * @param PsrResponse $response
-     */
     public function __construct(PsrResponse $response)
     {
         $this->response = $response;
         $this->data = $this->extractData();
     }
 
-    /**
-     * @return PsrResponse
-     */
-    public function getHttpResponse()
+    public function getHttpResponse(): PsrResponse
     {
         return $this->response;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->getData();
     }
 
-    /**
-     * @return array
-     */
-    protected function getData()
+    protected function getData(): array
     {
         return $this->data;
     }
 
-    /**
-     * @return array
-     */
-    private function extractData()
+    private function extractData(): array
     {
         try {
             $data = $this->decodeJson($this->getHttpResponse()->getBody());
 
-            return is_array($data) ? $data : array();
+            return is_array($data) ? $data : [];
         } catch (\Exception $e) {
             throw new Exception\RuntimeException(
                 sprintf('Failed extract data from HTTP response: %s', $e->getMessage()),
@@ -70,15 +50,11 @@ abstract class BaseResponse implements
         }
     }
 
-    /**
-     * @param string $value
-     * @return array
-     */
-    private function decodeJson($value)
+    private function decodeJson(string $value): array
     {
         $data = json_decode($value, true);
 
-        if ($data === false) {
+        if (!is_array($data)) {
             $error = json_last_error();
 
             if ($error !== JSON_ERROR_NONE) {

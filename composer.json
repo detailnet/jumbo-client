@@ -12,62 +12,50 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Christian Schmid",
-            "email": "christian.schmid@detailnet.ch"
-        },
-        {
             "name": "Curzio Della Santa",
             "email": "curzio.della.santa@detailnet.ch"
         },
         {
             "name": "Ivan Wolf",
             "email": "ivan.wolf@detailnet.ch"
-        },
-        {
-            "name": "Kevin Jüni",
-            "email": "kevin.jueni@detailnet.ch"
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.2",
+        "ext-json": "*",
+        "ext-simplexml": "*",
         "guzzlehttp/guzzle": "^6.2",
         "guzzlehttp/guzzle-services": "^1.1",
         "mtdowling/jmespath.php": "^2.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.1",
-        "squizlabs/php_codesniffer" : "^2.2",
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer" : "^3.2",
         "phpmd/phpmd": "^2.2",
-        "satooshi/php-coveralls": "^1.0"
-    },
-    "suggest": {
-        "aws/aws-sdk-php": "For uploading assets"
+        "roave/security-advisories": "dev-master"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Jumbo\\Client\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-0": {
+        "psr-4": {
             "JumboTest\\Client\\": "tests/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
-        }
-    },
-    "archive": {
-        "exclude": [
-            "!vendor",
-            "tests",
-            "*phpunit.xml",
-            ".coveralls.yml",
-            ".travis.yml",
-            "build.xml",
-            "build.properties",
-            "composer.phar"
-        ]
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@md-check",
+            "@test"
+        ],
+        "cs-check": "phpcs --standard=phpcs.xml -v",
+        "cs-check-report": "phpcs --standard=phpcs.xml --report=checkstyle --report-file=build/checkstyle.xml",
+        "md-check": "phpmd src xml phpmd.xml",
+        "md-check-report": "phpmd src xml phpmd.xml --reportfile build/pmd.xml",
+        "test": "phpunit",
+        "test-coverage-html": "phpunit --coverage-html build/coverage",
+        "test-coverage-clover": "phpunit --coverage-clover build/clover.xml"
     }
 }

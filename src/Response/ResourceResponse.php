@@ -4,28 +4,22 @@ namespace Jumbo\Client\Response;
 
 use GuzzleHttp\Command\Guzzle\Operation;
 use GuzzleHttp\Psr7\Response as PsrResponse;
+use Jumbo\Client\Response\Resource as ClientResource;
 
 class ResourceResponse extends BaseResponse
 {
-    /**
-     * @var \Jumbo\Client\Response\Resource
-     */
+    /** @var ClientResource */
     protected $resource;
 
     /**
-     * @param Operation $operation
-     * @param PsrResponse $response
      * @return ResourceResponse
      */
-    public static function fromOperation(Operation $operation, PsrResponse $response)
+    public static function fromOperation(Operation $operation, PsrResponse $response): Response
     {
         return new static($response);
     }
 
-    /**
-     * @return \Jumbo\Client\Response\Resource
-     */
-    public function getResource()
+    public function getResource(): ClientResource
     {
         if ($this->resource === null) {
             $this->resource = new Resource($this->getData());

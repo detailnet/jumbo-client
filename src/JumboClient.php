@@ -2,19 +2,17 @@
 
 namespace Jumbo\Client;
 
-use ReflectionClass;
-
 use GuzzleHttp\Client as HttpClient;
 //use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
 //use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescriptionInterface;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
-
 use Jumbo\Client\Exception;
+use ReflectionClass;
 
 abstract class JumboClient extends ServiceClient
 {
-    const CLIENT_VERSION = '0.1.1';
+    const CLIENT_VERSION = '1.0.0';
 
     const OPTION_APP_ID  = 'app_id';
     const OPTION_APP_KEY = 'app_key';
@@ -22,7 +20,10 @@ abstract class JumboClient extends ServiceClient
     const HEADER_APP_ID  = 'App-ID';
     const HEADER_APP_KEY = 'App-Key';
 
-    public static function factory($options = array())
+    /**
+     * @return static
+     */
+    public static function factory(array $options = []): JumboClient
     {
 //        $requiredOptions = array();
 //
@@ -35,7 +36,7 @@ abstract class JumboClient extends ServiceClient
 //        }
 
         // These are applied if not otherwise specified
-        $defaultOptions = array(
+        $defaultOptions = [
             'base_uri' => self::getDefaultServiceUrl(),
             // Float describing the number of seconds to wait while trying to connect to a server.
             // 0 was the default (wait indefinitely).
@@ -43,12 +44,12 @@ abstract class JumboClient extends ServiceClient
             // Float describing the timeout of the request in seconds.
             // 0 was the default (wait indefinitely).
             'timeout' => 60,
-        );
+        ];
 
-        $headers = array(
+        $headers = [
             'Accept' => 'application/json',
             'User-Agent' => 'jumbo-client/' . self::CLIENT_VERSION,
-        );
+        ];
 
         if (isset($options[self::OPTION_APP_ID])) {
             $headers[self::HEADER_APP_ID] = $options[self::OPTION_APP_ID];
@@ -59,12 +60,12 @@ abstract class JumboClient extends ServiceClient
         }
 
         // These are always applied
-        $overrideOptions = array(
+        $overrideOptions = [
             // We're using our own error handling middleware,
             // so disable throwing exceptions on HTTP protocol errors (i.e., 4xx and 5xx responses).
             'http_errors' => false,
             'headers' => $headers,
-        );
+        ];
 
         // Apply options
         $config = array_replace_recursive($defaultOptions, $options, $overrideOptions);
@@ -87,74 +88,26 @@ abstract class JumboClient extends ServiceClient
         return $client;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getServiceAppId()
+    public function getServiceAppId(): ?string
     {
         return $this->getHeaderOption(self::HEADER_APP_ID);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getServiceAppKey()
+    public function getServiceAppKey(): ?string
     {
         return $this->getHeaderOption(self::HEADER_APP_KEY);
     }
 
-    /**
-     * @return string
-     */
-    public function getServiceUrl()
+    public function getServiceUrl(): string
     {
         return $this->getHttpClient()->getConfig('base_uri');
     }
 
-    /**
-     * @return string
-     */
-    protected static function getDefaultServiceUrl()
-    {
-        $serviceName = self::getServiceName();
-
-        return sprintf('https://jumbo-%s.detailnet.ch/api/', $serviceName);
-    }
-
-    /**
-     * @param boolean $asSnake
-     * @return string
-     */
-    protected static function getServiceName($asSnake = true)
-    {
-        $className = (new ReflectionClass(static::CLASS))->getShortName();
-        $serviceName = str_replace('Client', '', $className);
-
-        if ($asSnake !== false) {
-            $serviceName = ltrim(strtolower(preg_replace('/[A-Z]/', '-$0', $serviceName)), '-');
-            $serviceName = preg_replace('/[-]+/', '-', $serviceName);
-        }
-
-        return $serviceName;
-    }
-
-    /**
-     * @return string
-     */
-    protected static function getServiceDescriptionName()
-    {
-        return self::getServiceName(false);
-    }
-
-    /**
-     * @param array $filtersToAdd
-     * @param array $params
-     */
-    protected function addOrReplaceFilters(array $filtersToAdd, array &$params)
+    protected function addOrReplaceFilters(array $filtersToAdd, array &$params): void
     {
         // We may need to replace already existing filters
         if (isset($params['filter']) && is_array($params['filter'])) {
-            $filters = array();
+            $filters = [];
 
             foreach ($params['filter'] as $filter) {
                 if (isset($filter['property']) && isset($filtersToAdd[$filter['property']])) {
@@ -174,27 +127,36 @@ abstract class JumboClient extends ServiceClient
         $params['filter'] = $filters;
     }
 
-//    /**
-//     * @param string $method
-//     * @param array $args
-//     * @return mixed
-//     */
-//    public function __call($method, array $args)
-//    {
-//        // It seems we can't intercept Guzzle's request exceptions through the event system...
-//        // e.g. when the endpoint is unreachable or the request times out.
-//        try {
-//            return parent::__call($method, $args);
-//        } catch (\Exception $e) {
-//            throw Exception\OperationException::wrapException($e);
-//        }
-//    }
+    private static function getDefaultServiceUrl(): string
+    {
+        $serviceName = self::getServiceName();
+
+        return sprintf('https://jumbo-%s.detailnet.ch/api/', $serviceName);
+    }
+
+    private static function getServiceName(bool $asSnake = true): string
+    {
+        $className = (new ReflectionClass(static::CLASS))->getShortName();
+        $serviceName = str_replace('Client', '', $className);
+
+        if ($asSnake !== false) {
+            $serviceName = ltrim(strtolower(preg_replace('/[A-Z]/', '-$0', $serviceName)), '-');
+            $serviceName = preg_replace('/[-]+/', '-', $serviceName);
+        }
+
+        return $serviceName;
+    }
+
+    private static function getServiceDescriptionName(): string
+    {
+        return self::getServiceName(false);
+    }
 
     /**
      * @param string $option
      * @return string|null
      */
-    protected function getHeaderOption($option)
+    private function getHeaderOption($option)
     {
         $headers = $this->getHttpClient()->getConfig('headers');
 

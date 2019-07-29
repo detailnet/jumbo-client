@@ -2,327 +2,353 @@
 
 use Jumbo\Client\Response;
 
-return array(
+return [
     'name' => 'Jumbo Assets Service',
-    'operations' => array(
-        'listAssets' => array(
+    'operations' => [
+        'listAssets' => [
             'httpMethod' => 'GET',
             'uri' => 'assets',
             'summary' => 'List assets',
-            'parameters' => array(
-                'page' => array(
+            'parameters' => [
+                'page' => [
                     '$ref' => 'PageParam',
-                ),
-                'page_size' => array(
+                ],
+                'page_size' => [
                     '$ref' => 'PageSizeParam',
-                ),
-                'query' => array(
+                ],
+                'query' => [
                     'description' => 'Full text search query (currently searches only in asset name)',
                     'location' => 'query',
                     'type' => 'string',
                     'required' => false,
-                ),
-                'filter' => array(
+                ],
+                'filter' => [
                     '$ref' => 'FilterParam',
-                ),
-                'sort' => array(
+                ],
+                'sort' => [
                     '$ref' => 'SortParam',
-                ),
-            ),
+                ],
+            ],
             'responseModel' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'assets',
-        ),
-        'fetchAsset' => array(
+        ],
+        'fetchAsset' => [
             'httpMethod' => 'GET',
             'uri' => 'assets/{asset_id}',
             'summary' => 'Fetch an asset',
-            'parameters' => array(
-                'asset_id' => array(
+            'parameters' => [
+                'asset_id' => [
                     'description' => 'The ID of the asset to fetch',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'downloadAsset' => array(
+        ],
+        'downloadAsset' => [
             'httpMethod' => 'POST',
             'uri' => 'assets/{asset_id}/downloads',
             'summary' => 'Download an asset (get the download URL)',
-            'parameters' => array(
-                'asset_id' => array(
+            'parameters' => [
+                'asset_id' => [
                     'description' => 'The ID of the asset to download',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'expire_after' => array(
+                ],
+                'expire_after' => [
                     'description' => 'The number of seconds after which the download URL expires',
                     'location' => 'json',
                     'type' => 'integer',
                     'required' => false,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'createAsset' => array(
+        ],
+        'downloadImage' => [
+            'httpMethod' => 'POST',
+            'uri' => 'assets/{asset_id}/images/{image_id}/downloads',
+            'summary' => 'Download a preview (get the download URL)',
+            'parameters' => [
+                'asset_id' => [
+                    'description' => 'The ID of the asset to download the preview for',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'image_id' => [
+                    'description' => 'The ID of the image or purpose (e.g. "web") to download',
+                    'location' => 'uri',
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'expire_after' => [
+                    'description' => 'The number of seconds after which the download URL expires',
+                    'location' => 'json',
+                    'type' => 'integer',
+                    'required' => false,
+                ],
+            ],
+            'responseClass' => Response\ResourceResponse::CLASS,
+        ],
+        'createAsset' => [
             'httpMethod' => 'POST',
             'uri' => 'assets',
             'summary' => 'Create an asset',
-            'parameters' => array(
-                'id' => array(
+            'parameters' => [
+                'id' => [
                     'description' => 'The ID of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'purpose' => array(
+                ],
+                'purpose' => [
                     'description' => 'The purpose of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                    'enum' => array(
+                    'enum' => [
                         'original',
                         'web',
-                    ),
-                ),
-                'name' => array(
+                    ],
+                ],
+                'name' => [
                     'description' => 'The name of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
                     'minLength' => 1,
-                ),
-                'url' => array(
+                ],
+                'url' => [
                     'description' => 'The URL of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'size' => array(
+                ],
+                'size' => [
                     'description' => 'The size of the asset',
                     'location' => 'json',
                     'type' => 'integer',
                     'required' => true,
                     'minimum' => 1,
-                ),
-                'mime_type' => array(
+                ],
+                'mime_type' => [
                     'description' => 'The mime-type of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'type' => array(
+                ],
+                'type' => [
                     'description' => 'The type of the asset (the ID)',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'description' => array(
+                ],
+                'description' => [
                     'description' => 'The description for the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => false,
-                ),
-                'languages' => array(
+                ],
+                'languages' => [
                     'description' => 'The languages for the asset (the IDs)',
                     'location' => 'json',
                     'type' => 'array',
                     'required' => false,
-                ),
-                'tags' => array(
+                ],
+                'tags' => [
                     'description' => 'The tags for the asset (the IDs)',
                     'location' => 'json',
                     'type' => 'array',
                     'required' => false,
-                ),
-                'articles' => array(
+                ],
+                'articles' => [
                     'description' => 'The referenced articles for the asset',
                     'location' => 'json',
                     'type' => 'array',
                     'required' => false,
-                    'items' => array(
+                    'items' => [
                         'type' => 'object',
-                        'properties' => array(
-                            'code' => array(
+                        'properties' => [
+                            'code' => [
                                 'description' => 'The referenced articles for the asset',
                                 'type' => 'string',
                                 'required' => true,
-                            ),
-                        ),
-                    ),
-                ),
-                'archived' => array(
+                            ],
+                        ],
+                    ],
+                ],
+                'archived' => [
                     'description' => 'Whether or not to create the asset directly as archived',
                     'location' => 'json',
                     'type' => 'boolean',
                     'required' => false,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'deleteAsset' => array(
+        ],
+        'deleteAsset' => [
             'httpMethod' => 'DELETE',
             'uri' => 'assets/{asset_id}',
             'summary' => 'Delete an asset',
-            'parameters' => array(
-                'asset_id' => array(
+            'parameters' => [
+                'asset_id' => [
                     'description' => 'The ID of the asset to delete',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'createTentativeAsset' => array(
+        ],
+        'createTentativeAsset' => [
             'httpMethod' => 'POST',
             'uri' => 'assets/new',
             'summary' => 'Create a tentative asset',
-            'parameters' => array(
-                'name' => array(
+            'parameters' => [
+                'name' => [
                     'description' => 'The name of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'mime_type' => array(
+                ],
+                'mime_type' => [
                     'description' => 'The mime-type of the asset',
                     'location' => 'json',
                     'type' => 'string',
                     'required' => false,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'deleteTentativeAsset' => array(
+        ],
+        'deleteTentativeAsset' => [
             'httpMethod' => 'DELETE',
             'uri' => 'assets/new/{tentative_asset_id}',
             'summary' => 'Delete a tentative asset',
-            'parameters' => array(
-                'tentative_asset_id' => array(
+            'parameters' => [
+                'tentative_asset_id' => [
                     'description' => 'The ID of the tentative asset to delete',
                     'location' => 'uri',
                     'type' => 'string',
                     'required' => true,
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ResourceResponse::CLASS,
-        ),
-        'listAssetCollections' => array(
+        ],
+        'listAssetCollections' => [
             'httpMethod' => 'GET',
             'uri' => 'asset-collections',
             'summary' => 'List asset collections',
-            'parameters' => array(
-                'page' => array(
+            'parameters' => [
+                'page' => [
                     '$ref' => 'PageParam',
-                ),
-                'page_size' => array(
+                ],
+                'page_size' => [
                     '$ref' => 'PageSizeParam',
-                ),
-                'filter' => array(
+                ],
+                'filter' => [
                     '$ref' => 'FilterParam',
-                ),
-                'sort' => array(
+                ],
+                'sort' => [
                     '$ref' => 'SortParam',
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'asset_collections',
-        ),
-        'listPurposes' => array(
+        ],
+        'listPurposes' => [
             'httpMethod' => 'GET',
             'uri' => 'purposes',
             'summary' => 'List asset purposes',
-            'parameters' => array(
-                'page' => array(
+            'parameters' => [
+                'page' => [
                     '$ref' => 'PageParam',
-                ),
-                'page_size' => array(
+                ],
+                'page_size' => [
                     '$ref' => 'PageSizeParam',
-                ),
-                'filter' => array(
+                ],
+                'filter' => [
                     '$ref' => 'FilterParam',
-                ),
-                'sort' => array(
+                ],
+                'sort' => [
                     '$ref' => 'SortParam',
-                ),
-            ),
+                ],
+            ],
             'responseClass' => Response\ListResponse::CLASS,
             'responseDataRoot' => 'purposes',
-        ),
-    ),
-    'models' => array(
-        'PageParam' => array(
+        ],
+    ],
+    'models' => [
+        'PageParam' => [
             'description' => 'The number of the page',
             'location' => 'query',
             'type' => 'integer',
             'required' => false,
-        ),
-        'PageSizeParam' => array(
+        ],
+        'PageSizeParam' => [
             'description' => 'The number of items to list on a page',
             'location' => 'query',
             'type' => 'integer',
             'required' => false,
-        ),
-        'Filter' => array(
+        ],
+        'Filter' => [
             'type' => 'object',
-            'properties' => array(
-                'property' => array(
+            'properties' => [
+                'property' => [
                     'description' => 'The property to filter against',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'value' => array(
+                ],
+                'value' => [
                     'description' => 'The value to filter against',
-                    'type' => array('array', 'string', 'integer', 'boolean', 'number', 'numeric', 'object'),
+                    'type' => ['array', 'string', 'integer', 'boolean', 'number', 'numeric', 'object'],
                     'required' => true,
-                ),
-                'operator' => array(
+                ],
+                'operator' => [
                     'description' => 'The operator the use for filtering',
                     'type' => 'string',
                     'required' => false,
-                ),
-                'type' => array(
+                ],
+                'type' => [
                     'description' => 'The data type of the value',
                     'type' => 'string',
                     'required' => false,
-                ),
-            ),
-        ),
-        'FilterParam' => array(
+                ],
+            ],
+        ],
+        'FilterParam' => [
             'description' => 'An array of filters',
             'location' => 'query',
             'type' => 'array',
             'required' => false,
-            'items' => array(
+            'items' => [
                 '$ref' => 'Filter',
-            ),
-        ),
-        'Sort' => array(
+            ],
+        ],
+        'Sort' => [
             'type' => 'object',
-            'properties' => array(
-                'property' => array(
+            'properties' => [
+                'property' => [
                     'description' => 'The property use for sorting',
                     'type' => 'string',
                     'required' => true,
-                ),
-                'direction' => array(
+                ],
+                'direction' => [
                     'description' => 'The sorting direction (either "asc" or "desc")',
                     'type' => 'string',
                     'required' => false,
-                ),
-            ),
-        ),
-        'SortParam' => array(
+                ],
+            ],
+        ],
+        'SortParam' => [
             'description' => 'An array of sorters',
             'location' => 'query',
             'type' => 'array',
             'required' => false,
-            'items' => array(
+            'items' => [
                 '$ref' => 'Sort',
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];

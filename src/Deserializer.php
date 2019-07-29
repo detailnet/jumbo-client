@@ -7,32 +7,19 @@ use GuzzleHttp\Command\Guzzle\DescriptionInterface as ServiceDescription;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request as PsrRequest;
 use GuzzleHttp\Psr7\Response as PsrResponse;
-
 use Jumbo\Client\Response\Response;
 
 class Deserializer
 {
-    /**
-     * @var ServiceDescription $description
-     */
-    protected $description;
+    /** @var ServiceDescription $description */
+    private $description;
 
-    /**
-     * Deserializer constructor.
-     * @param ServiceDescription $description
-     */
     public function __construct(ServiceDescription $description)
     {
         $this->description = $description;
     }
 
-    /**
-     * @param PsrResponse $response
-     * @param PsrRequest|null $request
-     * @param CommandInterface $command
-     * @return Response|null
-     */
-    public function __invoke(PsrResponse $response, PsrRequest $request, CommandInterface $command)
+    public function __invoke(PsrResponse $response, PsrRequest $request, CommandInterface $command): ?Response
     {
         // No exception for Not Found errors
         if ($response->getStatusCode() == 404) {
