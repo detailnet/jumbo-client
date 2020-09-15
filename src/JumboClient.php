@@ -9,6 +9,7 @@ use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 use Jumbo\Client\Exception;
 use ReflectionClass;
+use function array_replace_recursive;
 
 abstract class JumboClient extends ServiceClient
 {
@@ -36,15 +37,18 @@ abstract class JumboClient extends ServiceClient
 //        }
 
         // These are applied if not otherwise specified
-        $defaultOptions = [
-            'base_uri' => self::getDefaultServiceUrl(),
-            // Float describing the number of seconds to wait while trying to connect to a server.
-            // 0 was the default (wait indefinitely).
-            'connect_timeout' => 10,
-            // Float describing the timeout of the request in seconds.
-            // 0 was the default (wait indefinitely).
-            'timeout' => 60,
-        ];
+        $defaultOptions = array_replace_recursive(
+            [
+                'base_uri' => self::getDefaultServiceUrl(),
+                // Float describing the number of seconds to wait while trying to connect to a server.
+                // 0 was the default (wait indefinitely).
+                'connect_timeout' => 10,
+                // Float describing the timeout of the request in seconds.
+                // 0 was the default (wait indefinitely).
+                'timeout' => 60,
+            ],
+            $options['http_options'] ?: []
+        );
 
         $headers = [
             'Accept' => 'application/json',
