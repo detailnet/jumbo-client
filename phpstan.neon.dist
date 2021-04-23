@@ -1,0 +1,17 @@
+parameters:
+  level: max
+  fileExtensions:
+    - php
+  paths:
+    - src
+#  stubFiles:
+#    - .phpstan/stubs/Denner/Importing/<path>/<file>.php
+#  ignoreErrors:
+#    -
+#      message: "#Return type \\(array\\|null\\) of method .*::getValues\\(\\) should be covariant with return type \\(array\\)#"
+#      path: src/InputFilter/InputFilter.php
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
+  treatPhpDocTypesAsCertain: false
+includes:
+  - vendor/phpstan/phpstan-strict-rules/rules.neon

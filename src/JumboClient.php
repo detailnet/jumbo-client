@@ -9,11 +9,20 @@ use GuzzleHttp\Command\Guzzle\Description as ServiceDescription;
 use GuzzleHttp\Command\Guzzle\GuzzleClient as ServiceClient;
 use Jumbo\Client\Exception;
 use ReflectionClass;
+use function array_key_exists;
 use function array_replace_recursive;
+use function array_values;
+use function is_array;
+use function ltrim;
+use function preg_replace;
+use function sprintf;
+use function str_replace;
+use function strtolower;
 
-abstract class JumboClient extends ServiceClient
+abstract class JumboClient extends ServiceClient implements
+    Client
 {
-    const CLIENT_VERSION = '1.0.0';
+    const CLIENT_VERSION = '2.0.0';
 
     const OPTION_APP_ID  = 'app_id';
     const OPTION_APP_KEY = 'app_key';
@@ -21,12 +30,9 @@ abstract class JumboClient extends ServiceClient
     const HEADER_APP_ID  = 'App-ID';
     const HEADER_APP_KEY = 'App-Key';
 
-    /**
-     * @return static
-     */
     public static function factory(array $options = []): JumboClient
     {
-//        $requiredOptions = array();
+//        $requiredOptions = [];
 //
 //        foreach ($requiredOptions as $optionName) {
 //            if (!isset($options[$optionName]) || $options[$optionName] === '') {
@@ -47,7 +53,7 @@ abstract class JumboClient extends ServiceClient
                 // 0 was the default (wait indefinitely).
                 'timeout' => 60,
             ],
-            $options['http_options'] ?: []
+            $options['http_options'] ?? []
         );
 
         $headers = [
@@ -140,12 +146,12 @@ abstract class JumboClient extends ServiceClient
 
     private static function getServiceName(bool $asSnake = true): string
     {
-        $className = (new ReflectionClass(static::CLASS))->getShortName();
+        $className = (new ReflectionClass(static::class))->getShortName();
         $serviceName = str_replace('Client', '', $className);
 
         if ($asSnake !== false) {
-            $serviceName = ltrim(strtolower(preg_replace('/[A-Z]/', '-$0', $serviceName)), '-');
-            $serviceName = preg_replace('/[-]+/', '-', $serviceName);
+            $serviceName = ltrim(strtolower(preg_replace('/[A-Z]/', '-$0', $serviceName) ?? ''), '-');
+            $serviceName = preg_replace('/[-]+/', '-', $serviceName) ?? '';
         }
 
         return $serviceName;
@@ -156,11 +162,7 @@ abstract class JumboClient extends ServiceClient
         return self::getServiceName(false);
     }
 
-    /**
-     * @param string $option
-     * @return string|null
-     */
-    private function getHeaderOption($option)
+    private function getHeaderOption(string $option): ?string
     {
         $headers = $this->getHttpClient()->getConfig('headers');
 

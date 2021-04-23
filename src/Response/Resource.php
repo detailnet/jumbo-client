@@ -3,14 +3,13 @@
 namespace Jumbo\Client\Response;
 
 use ArrayAccess;
-use JmesPath\Env as JmesPath;
 use Jumbo\Client\Exception;
+use JmesPath\Env as JmesPath;
 
 class Resource implements
     ArrayAccess
 {
-    /** @var array */
-    protected $data = [];
+    protected array $data = [];
 
     public function __construct(array $data)
     {
@@ -47,6 +46,7 @@ class Resource implements
     public function __toString(): string
     {
         $jsonData = json_encode($this->data, JSON_PRETTY_PRINT);
+
         return <<<EOT
 Model Data
 ----------
@@ -61,7 +61,7 @@ EOT;
     }
 
     /**
-     * @param string|integer $offset
+     * @param mixed $offset
      * @return mixed|null
      */
     public function offsetGet($offset)
@@ -70,7 +70,7 @@ EOT;
     }
 
     /**
-     * @param string|integer $offset
+     * @param mixed $offset
      * @param mixed $value
      */
     public function offsetSet($offset, $value)
@@ -81,8 +81,8 @@ EOT;
     }
 
     /**
-     * @param string|integer $offset
-     * @return boolean
+     * @param mixed $offset
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -90,7 +90,7 @@ EOT;
     }
 
     /**
-     * @param string|integer $offset
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {

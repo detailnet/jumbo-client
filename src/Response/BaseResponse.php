@@ -2,27 +2,42 @@
 
 namespace Jumbo\Client\Response;
 
-use GuzzleHttp\Psr7\Response as PsrResponse;
 use Jumbo\Client\Exception;
+use GuzzleHttp\Psr7\Response as PsrResponse;
+use Throwable;
+use function json_decode;
+use function sprintf;
 
 abstract class BaseResponse implements
     Response
 {
-    /** @var PsrResponse */
-    protected $response;
+    protected PsrResponse $response;
+    protected array $data = [];
+    /** @var array<string, mixed> */
+    private array $options = [];
 
-    /** @var array */
-    protected $data = [];
-
-    public function __construct(PsrResponse $response)
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(PsrResponse $response, array $options = [])
     {
         $this->response = $response;
+        $this->options = $options;
         $this->data = $this->extractData();
     }
 
     public function getHttpResponse(): PsrResponse
     {
         return $this->response;
+    }
+
+    /**
+     * @param mixed|null $defaultValue
+     * @return mixed
+     */
+    public function getOption(string $key, $defaultValue = null)
+    {
+        return $this->options[$key] ?? $defaultValue;
     }
 
     public function toArray(): array
@@ -35,15 +50,13 @@ abstract class BaseResponse implements
         return $this->data;
     }
 
-    private function extractData(): array
+    protected function extractData(): array
     {
         try {
-            $data = $this->decodeJson($this->getHttpResponse()->getBody());
-
-            return is_array($data) ? $data : [];
-        } catch (\Exception $e) {
+            return $this->decodeJson($this->getHttpResponse()->getBody());
+        } catch (Throwable $e) {
             throw new Exception\RuntimeException(
-                sprintf('Failed extract data from HTTP response: %s', $e->getMessage()),
+                sprintf('Failed extract JSON data from HTTP response: %s', $e->getMessage()),
                 $e->getCode(),
                 $e
             );
@@ -52,24 +65,6 @@ abstract class BaseResponse implements
 
     private function decodeJson(string $value): array
     {
-        $data = json_decode($value, true);
-
-        if (!is_array($data)) {
-            $error = json_last_error();
-
-            if ($error !== JSON_ERROR_NONE) {
-                $message = json_last_error_msg();
-
-                if ($message === false) {
-                    $message = 'Unknown error';
-                }
-
-                throw new Exception\RuntimeException(
-                    sprintf('Unable to decode JSON: %s', $message)
-                );
-            }
-        }
-
-        return $data;
+        return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
     }
 }

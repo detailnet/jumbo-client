@@ -1,0 +1,8 @@
+# Instead of a different webroot, redirecting all not found and base to /examples subfolder
+# Changing the webroot to examples would cause problem accessing resources
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/examples/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /examples/$1
+RewriteRule ^(/)?$ examples/index.php [L]
