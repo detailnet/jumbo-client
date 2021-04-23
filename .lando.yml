@@ -1,0 +1,33 @@
+name: jumbo-client
+
+proxy:
+  appserver:
+    - jumbo-client.detailnet.me
+
+services:
+  appserver:
+    type: php:7.4
+    via: apache
+    run:
+      - composer install
+    overrides:
+      volumes:
+        - ${HOME}/.lando/composer_cache:/var/www/.composer/cache
+    #  environment:
+    #    COMPOSER_AUTH: |
+    #      {"github-oauth": {"github.com": "<your token>"}}
+
+tooling:
+  composer:
+    service: appserver
+    description: Run composer commands
+    cmd: composer --ansi
+  #    cmd:
+  #      - php -dmemory_limit=-1 /usr/local/bin/composer
+  test:
+    description: Run all tests
+    cmd:
+      - appserver: composer test
+      # - node: yarn test
+  php:
+    service: appserver

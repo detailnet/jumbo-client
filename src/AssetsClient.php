@@ -36,7 +36,7 @@ class AssetsClient extends JumboClient
         /** @var Response\ResourceResponse|null $response */
         $response = $this->__call(__FUNCTION__, [['asset_id' => $id]]);
 
-        return $response ? $response->getResource() : null;
+        return $response !== null ? $response->getResource() : null;
     }
 
     public function downloadAsset(string $id, ?string $imageId = null, ?int $expireAfter = null): ?string
@@ -57,7 +57,7 @@ class AssetsClient extends JumboClient
         /** @var Response\ResourceResponse|null $response */
         $response = $this->__call($function, [$params]);
 
-        return $response ? $response->getResource()->get('url') : null;
+        return $response !== null ? $response->getResource()->get('url') : null;
     }
 
     public function downloadPreview(string $id, ?int $expireAfter = null): ?string
@@ -85,8 +85,8 @@ class AssetsClient extends JumboClient
 
         $tentativeAssetData = ['name' => $upload->getName()];
 
-        if ($upload->getMimetype() !== null) {
-            $tentativeAssetData['mime_type'] = $upload->getMimetype();
+        if ($upload->getMimeType() !== null) {
+            $tentativeAssetData['mime_type'] = $upload->getMimeType();
         }
 
         $tentativeAsset = $this->createTentativeAsset($tentativeAssetData);
@@ -105,7 +105,7 @@ class AssetsClient extends JumboClient
             'name' => $upload->getName(),
             'url' => $upload->getUrl(),
             'size' => $upload->getSize(),
-            'mime_type' => $upload->getMimetype(),
+            'mime_type' => $upload->getMimeType(),
             'type' => $upload->getType(),
             'description' => $upload->getDescription(),
             'languages' => $upload->getLanguages(),

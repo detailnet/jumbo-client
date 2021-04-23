@@ -44,9 +44,9 @@ interface AssetUpload
 
     public function getAcl(): string;
 
-    public function setAcl(string $acl);
+    public function setAcl(string $acl): void;
 
     public function getEncryption(): string;
 
-    public function setEncryption(string $encryption);
+    public function setEncryption(string $encryption): void;
 }

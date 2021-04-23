@@ -32,7 +32,6 @@
     </rule>
 
     <rule ref="rulesets/codesize.xml">
-        <exclude name="TooManyFields"/>
         <exclude name="TooManyMethods"/>
         <exclude name="ExcessiveClassComplexity"/>
         <exclude name="NPathComplexity"/>

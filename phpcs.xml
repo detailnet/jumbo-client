@@ -2,17 +2,22 @@
 <ruleset name="DETAIL NET PHPCS rule set">
     <description>The coding standard for a DETAIL NET PHP application</description>
 
-    <!-- Include the whole PSR-2 standard -->
-    <rule ref="PSR2"/>
-    <rule ref="Generic.Files.LineLength">
-        <properties>
-            <property name="lineLimit" value="140"/>
-            <property name="absoluteLineLimit" value="0"/>
-        </properties>
-    </rule>
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    <arg name="colors"/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <!-- Ignore warnings, show progress of the run and show sniff names -->
+    <arg value="nps"/>
 
     <!-- Paths to check -->
-    <file>examples</file>
+<!--    <file>config</file>-->
     <file>src</file>
-    <file>tests</file>
+    <file>test</file>
+
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
 </ruleset>

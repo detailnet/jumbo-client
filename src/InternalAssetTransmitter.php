@@ -5,6 +5,9 @@ namespace Jumbo\Client;
 use GuzzleHttp\ClientInterface as HttpClient;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use SimpleXMLElement;
+use function sprintf;
+use function strlen;
+use function strtok;
 
 class InternalAssetTransmitter implements
     AssetTransmitter
@@ -29,6 +32,10 @@ class InternalAssetTransmitter implements
 
     public function upload(AssetUpload $upload): void
     {
+        if ($upload->getUploadUrl() === null) {
+            throw new Exception\RuntimeException('Upload URL not provided');
+        }
+
         $client = $this->getClient();
         $response = $client->request(
             'PUT',
@@ -49,7 +56,9 @@ class InternalAssetTransmitter implements
             );
         }
 
-        $upload->setUrl(strtok($upload->getUploadUrl(), '?'));
+        $url = strtok($upload->getUploadUrl(), '?');
+
+        $upload->setUrl($url !== false ? $url : null);
     }
 
     public function download(string $url): array
@@ -65,11 +74,11 @@ class InternalAssetTransmitter implements
         $code = (string) $result->xpath('//Code')[0];
         $message = (string) $result->xpath('//Message')[0];
 
-        if (!$message) {
+        if (strlen($message) === 0) {
             $message = 'Unknown error';
         }
 
-        if ($code) {
+        if (strlen($code) > 0) {
             $message .= sprintf(' (%s)', $code);
         }
 

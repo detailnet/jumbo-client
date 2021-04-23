@@ -1,9 +1,6 @@
 # jumbo-client
 
-[![Build Status](https://travis-ci.org/detailnet/jumbo-client.svg?branch=master)](https://travis-ci.org/detailnet/jumbo-client)
-[![Coverage Status](https://img.shields.io/coveralls/detailnet/jumbo-client.svg)](https://coveralls.io/r/detailnet/jumbo-client)
-[![Latest Stable Version](https://poser.pugx.org/detailnet/jumbo-client/v/stable.svg)](https://packagist.org/packages/detailnet/jumbo-client)
-[![Latest Unstable Version](https://poser.pugx.org/detailnet/jumbo-client/v/unstable.svg)](https://packagist.org/packages/detailnet/jumbo-client)
+[![Actions Status](https://github.com/detailnet/jumbo-client/workflows/Tests/badge.svg)](https://github.com/detailnet/jumbo-client/actions)
 
 API Client for Jumbo Web Services
 
@@ -17,7 +14,7 @@ Install the library through [Composer](http://getcomposer.org/) using the follow
      ```json
      {
          "require": {
-             "detailnet/jumbo-client": "^1.0"
+             "detailnet/jumbo-client": "^2.0"
          }
      }
      ```
