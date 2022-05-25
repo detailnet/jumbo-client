@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION="8.0"
 FROM php:${PHP_VERSION}-cli
 
 RUN printf 'tzdata tzdata/Areas select Europe\ntzdata tzdata/Zones/Europe select Zurich\n' | debconf-set-selections; \
